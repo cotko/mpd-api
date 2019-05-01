@@ -1,0 +1,26 @@
+{
+  "name": "mpdctrl",
+  "version": "1.0.0",
+  "description": "MPD control module for Node.js",
+  "main": "lib/index.js",
+  "repository": "https://github.com/cotko/mpdctrl",
+  "author": "Cotko <cotkocot@gmail.com>",
+  "license": "UNLICENSED",
+  "scripts": {
+    "lint": "standard \"lib/**/*.js\"",
+    "lintfix": "standard \"lib/**/*.js\" --fix",
+    "todos": "grep -irn -B 1 -A 1 --colour todo lib/",
+    "doc": "jsdoc -c ./jsdoc.conf.js",
+    "docf": "rm -r docs && yarn doc || yarn doc"
+  },
+  "dependencies": {
+    "debug": "^4.1.1",
+    "mpdjs": "https://github.com/cotko/mpd.js.git#master"
+  },
+  "devDependencies": {
+    "standard": "^12.0.1"
+  },
+  "standard": {
+    "ignore": []
+  }
+}
