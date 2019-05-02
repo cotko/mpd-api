@@ -1,4 +1,7 @@
 @ns playback
+@linkmpd !controlling-playback
+@linkmpd !playback-options
+@desc Playback options and controls
 
 @method next
 @method prev previous

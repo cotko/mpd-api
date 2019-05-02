@@ -1,4 +1,6 @@
 @ns playlists
+@linkmpd !stored-playlists
+@desc Stored playlists
 
 @method get listplaylists
 @parser list

@@ -1,4 +1,6 @@
 @ns partition
+@linkmpd !partition-commands
+@desc Partition commands
 
 @method list listpartitions
 @parser list

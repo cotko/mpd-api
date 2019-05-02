@@ -1,4 +1,6 @@
 @ns queue
+@linkmpd !the-queue
+@desc The Queue
 
 @method add
 

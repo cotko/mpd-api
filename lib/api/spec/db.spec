@@ -1,4 +1,6 @@
 @ns db
+@linkmpd !the-music-database
+@desc The music database
 
 @method listall
 #@parser accumulateList(directory,file)

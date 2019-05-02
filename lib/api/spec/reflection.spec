@@ -1,4 +1,6 @@
 @ns reflection
+@linkmpd !reflection
+@desc Reflection
 
 @method config
 @parser object

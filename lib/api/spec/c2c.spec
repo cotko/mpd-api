@@ -1,5 +1,6 @@
 @ns c2c
-@linkmpd #client-to-client
+@linkmpd !client-to-client
+@desc Client to client communication
 
 
 @method list channels

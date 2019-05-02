@@ -1,4 +1,6 @@
 @ns sticker
+@linkmpd !stickers
+@desc Stickers
 
 # force `song` as type for all methods because MPD
 # only implements this type for stickers

@@ -1,5 +1,6 @@
 @ns connection
-@linkmpd #connection-settings
+@linkmpd !connection-settings
+@desc Connection settings
 
 @method close
 @method kill

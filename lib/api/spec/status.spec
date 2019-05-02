@@ -1,4 +1,6 @@
 @ns status
+@linkmpd !querying-mpd-s-status
+@desc Querying MPD’s status
 
 @method get status
 @parser object
