@@ -6,3 +6,4 @@
 @reducer <reducer> [<reducer> ...]
 @error <error> [<error> ...]
 @arguments <arguments> [<arguments> ...]
+@use method

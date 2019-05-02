@@ -46,5 +46,8 @@
 @method getfingerprint
 @parser object
 
-# @method albumart
-# @method albumartGetWhole
+@method albumart
+@use albumart
+
+@method albumartWhole
+@use albumartWhole
