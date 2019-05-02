@@ -9,7 +9,9 @@
   "scripts": {
     "lint": "standard \"lib/**/*.js\"",
     "lintfix": "standard \"lib/**/*.js\" --fix",
-    "todos": "grep -irn -B 1 -A 1 --colour todo lib/",
+    "todos": "grep -irn -B 1 -A 1 --colour todo lib/ || echo none found",
+    "todo": "grep -irn --colour -E '#\\s+@method' lib/api/spec/ || none missing",
+    "test": "node ./tests/",
     "doc": "jsdoc -c ./jsdoc.conf.js",
     "docf": "rm -r docs && yarn doc || yarn doc"
   },
