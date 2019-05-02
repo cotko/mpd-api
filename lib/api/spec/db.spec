@@ -48,6 +48,8 @@
 
 @method albumart
 @use albumart
+@error ignore(NO_EXIST
 
 @method albumartWhole
 @use albumartWhole
+@error ignore(NO_EXIST
