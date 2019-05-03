@@ -11,7 +11,7 @@ const log = (...args) => console.log(
   util.inspect(args, {depth: null, colors: true}))
 
 let MUT_ARG_METHODS
-const MUT_ARG_LINK = 'lib/api/mutate/arguments.js'
+const MUT_ARG_LINK = 'lib/api/mutate/argument.js'
 
 let MUT_FN_METHODS
 const MUT_FN_LINK = 'lib/api/mutate/method.js'
