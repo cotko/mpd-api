@@ -83,7 +83,7 @@ Wraps the MPD client from [mpd2 module](https://github.com/cotko/mpd.js) with ap
 
   ```
 
-  All methods return parsed already parsed results.
+  All methods return already parsed results.
 
   Reference to [mpd2](https://github.com/cotko/mpd.js) module is exposed as well, if needed:
 
