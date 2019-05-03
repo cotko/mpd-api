@@ -14,6 +14,18 @@
     "test": "node ./tests/",
     "doc": "node ./doc/ --doc --attach"
   },
+  "keywords": [
+    "mpd",
+    "mpd2",
+    "music",
+    "player",
+    "daemon",
+    "client",
+    "protocol",
+    "api",
+    "mpd-api",
+    "mpdapi"
+  ],
   "dependencies": {
     "debug": "^4.1.1",
     "file-type": "^10.11.0",
