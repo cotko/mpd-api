@@ -3,7 +3,7 @@
 
 Api implementation for [music player daemon](https://musicpd.org) ([GIT](https://github.com/MusicPlayerDaemon/MPD)) protocol.
 
-Wraps the MPD client from [mpd2 module](https://github.com/cotko/mpd.js) with api methods exposed as `client.api.**x**`
+Wraps the MPD client from [mpd2 module](https://github.com/cotko/mpd.js) with api methods exposed as *client.api*.`x`
 
 
 ### Usage
@@ -108,6 +108,8 @@ Wraps the MPD client from [mpd2 module](https://github.com/cotko/mpd.js) with ap
   ```
 
 
+
+
 ### API
 
 
@@ -201,7 +203,7 @@ method binds arguments which can not be changed
 <summary><tt>async db.<b>list</b>(...args)</tt> --> <tt>list ...args</tt></summary>
 <p>
 
-method reorderes or augments passed arguments, see <a href="lib/mutate/arguments.js#L8">dbList</a>
+method reorderes or augments passed arguments, see <a href="lib/api/mutate/arguments.js#L8">dbList</a>
 
 </p>
 </details>
@@ -231,7 +233,7 @@ method reorderes or augments passed arguments, see <a href="lib/mutate/arguments
 <tt>async db.<b>getfingerprint</b>(...args)</tt> --> <tt>getfingerprint ...args</tt>
 
 <details>
-<summary><tt>async db.<b>albumart</b>(...args)</tt> --> <tt><a href="lib/mutate/method.js#L28">albumart</a></tt></summary>
+<summary><tt>async db.<b>albumart</b>(...args)</tt> --> <tt><a href="lib/api/mutate/method.js#L28">albumart</a></tt></summary>
 <p>
 
 method ignores <b>NO_EXIST</b>, expect *undefined* in this case   
@@ -240,7 +242,7 @@ method ignores <b>NO_EXIST</b>, expect *undefined* in this case
 </details>
 
 <details>
-<summary><tt>async db.<b>albumartWhole</b>(...args)</tt> --> <tt><a href="lib/mutate/method.js#L82">albumartWhole</a></tt></summary>
+<summary><tt>async db.<b>albumartWhole</b>(...args)</tt> --> <tt><a href="lib/api/mutate/method.js#L82">albumartWhole</a></tt></summary>
 <p>
 
 method ignores <b>NO_EXIST</b>, expect *undefined* in this case   
@@ -339,7 +341,7 @@ method binds arguments which can not be changed
 <summary><tt>async playback.<b>consume</b>(...args)</tt> --> <tt>consume ...args</tt></summary>
 <p>
 
-method reorderes or augments passed arguments, see <a href="lib/mutate/arguments.js#L3">boolAt</a>
+method reorderes or augments passed arguments, see <a href="lib/api/mutate/arguments.js#L3">boolAt</a>
 
 </p>
 </details>
@@ -352,7 +354,7 @@ method reorderes or augments passed arguments, see <a href="lib/mutate/arguments
 <summary><tt>async playback.<b>mixrampdelay</b>(...args)</tt> --> <tt>mixrampdelay ...args</tt></summary>
 <p>
 
-method reorderes or augments passed arguments, see <a href="lib/mutate/arguments.js#L69">mixrampdelay</a>
+method reorderes or augments passed arguments, see <a href="lib/api/mutate/arguments.js#L69">mixrampdelay</a>
 
 </p>
 </details>
@@ -361,7 +363,7 @@ method reorderes or augments passed arguments, see <a href="lib/mutate/arguments
 <summary><tt>async playback.<b>random</b>(...args)</tt> --> <tt>random ...args</tt></summary>
 <p>
 
-method reorderes or augments passed arguments, see <a href="lib/mutate/arguments.js#L3">boolAt</a>
+method reorderes or augments passed arguments, see <a href="lib/api/mutate/arguments.js#L3">boolAt</a>
 
 </p>
 </details>
@@ -370,7 +372,7 @@ method reorderes or augments passed arguments, see <a href="lib/mutate/arguments
 <summary><tt>async playback.<b>repeat</b>(...args)</tt> --> <tt>repeat ...args</tt></summary>
 <p>
 
-method reorderes or augments passed arguments, see <a href="lib/mutate/arguments.js#L3">boolAt</a>
+method reorderes or augments passed arguments, see <a href="lib/api/mutate/arguments.js#L3">boolAt</a>
 
 </p>
 </details>
@@ -379,7 +381,7 @@ method reorderes or augments passed arguments, see <a href="lib/mutate/arguments
 <summary><tt>async playback.<b>single</b>(...args)</tt> --> <tt>single ...args</tt></summary>
 <p>
 
-method reorderes or augments passed arguments, see <a href="lib/mutate/arguments.js#L76">single</a>
+method reorderes or augments passed arguments, see <a href="lib/api/mutate/arguments.js#L76">single</a>
 
 </p>
 </details>
@@ -390,7 +392,7 @@ method reorderes or augments passed arguments, see <a href="lib/mutate/arguments
 <summary><tt>async playback.<b>setReplayGain</b>(...args)</tt> --> <tt>replay_gain_mode ...args</tt></summary>
 <p>
 
-method reorderes or augments passed arguments, see <a href="lib/mutate/arguments.js#L83">replaygain</a>
+method reorderes or augments passed arguments, see <a href="lib/api/mutate/arguments.js#L83">replaygain</a>
 
 </p>
 </details>
@@ -519,7 +521,7 @@ method binds arguments which can not be changed
 
 method binds arguments which can not be changed
 
-method reorderes or augments passed arguments, see <a href="lib/mutate/arguments.js#L17">stickerSet</a>
+method reorderes or augments passed arguments, see <a href="lib/api/mutate/arguments.js#L17">stickerSet</a>
 
 </p>
 </details>
@@ -539,7 +541,7 @@ method binds arguments which can not be changed
 
 method binds arguments which can not be changed
 
-method reorderes or augments passed arguments, see <a href="lib/mutate/arguments.js#L17">stickerSet</a>
+method reorderes or augments passed arguments, see <a href="lib/api/mutate/arguments.js#L17">stickerSet</a>
 
 method ignores <b>NO_EXIST</b>, expect *undefined* in this case   
     
@@ -563,7 +565,7 @@ method ignores <b>NO_EXIST</b>, expect *undefined* in this case
 
 method binds arguments which can not be changed
 
-method reorderes or augments passed arguments, see <a href="lib/mutate/arguments.js#L31">stickerFind</a>
+method reorderes or augments passed arguments, see <a href="lib/api/mutate/arguments.js#L31">stickerFind</a>
 
 </p>
 </details>
@@ -574,7 +576,7 @@ method reorderes or augments passed arguments, see <a href="lib/mutate/arguments
 
 method binds arguments which can not be changed
 
-method reorderes or augments passed arguments, see <a href="lib/mutate/arguments.js#L50">stickerSearch</a>
+method reorderes or augments passed arguments, see <a href="lib/api/mutate/arguments.js#L50">stickerSearch</a>
 
 </p>
 </details>
