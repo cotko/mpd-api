@@ -18,4 +18,4 @@
 @reducer pickBy(handler)
 
 @method decoders
-@parser nestedList
+@parser accumulateList(plugin)
