@@ -534,6 +534,8 @@ method reorderes or augments passed arguments, see <a href="lib/api/mutate/argum
 
 method binds arguments which can not be changed
 
+method ignores <b>NO_EXIST</b>, expect *undefined* in this case   
+    
 </p>
 </details>
 

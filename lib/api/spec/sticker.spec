@@ -15,6 +15,7 @@
 @method get sticker get song
 @parser list
 @reducer stickerList pickFirst
+@error ignore(NO_EXIST) # can be silenced
 
 @method delete sticker delete song
 @arguments stickerSet

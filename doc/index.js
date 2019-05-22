@@ -41,9 +41,7 @@ const genDoc = async () => {
     sections.push(section)
   }
 
-  return `
-
-### API
+  return `### API
 
 ${sections.map(genSection).join('')}
 
