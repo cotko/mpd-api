@@ -235,7 +235,7 @@ method reorderes or augments passed arguments, see <a href="lib/api/mutate/argum
 <tt>async db.<b>getfingerprint</b>(...args)</tt> --> <tt>getfingerprint ...args</tt>
 
 <details>
-<summary><tt>async db.<b>albumart</b>(...args)</tt> --> <tt><a href="lib/api/mutate/method.js#L123">albumart</a></tt></summary>
+<summary><tt>async db.<b>albumart</b>(...args)</tt> --> <tt><a href="lib/api/mutate/method.js#L128">albumart</a></tt></summary>
 <p>
 
 method ignores <b>NO_EXIST</b>, expect *undefined* in this case   
@@ -244,7 +244,7 @@ method ignores <b>NO_EXIST</b>, expect *undefined* in this case
 </details>
 
 <details>
-<summary><tt>async db.<b>albumartWhole</b>(...args)</tt> --> <tt><a href="lib/api/mutate/method.js#L124">albumartWhole</a></tt></summary>
+<summary><tt>async db.<b>albumartWhole</b>(...args)</tt> --> <tt><a href="lib/api/mutate/method.js#L129">albumartWhole</a></tt></summary>
 <p>
 
 method ignores <b>NO_EXIST</b>, expect *undefined* in this case   
@@ -253,7 +253,7 @@ method ignores <b>NO_EXIST</b>, expect *undefined* in this case
 </details>
 
 <details>
-<summary><tt>async db.<b>readpicture</b>(...args)</tt> --> <tt><a href="lib/api/mutate/method.js#L126">readpicture</a></tt></summary>
+<summary><tt>async db.<b>readpicture</b>(...args)</tt> --> <tt><a href="lib/api/mutate/method.js#L131">readpicture</a></tt></summary>
 <p>
 
 method ignores <b>NO_EXIST</b>, expect *undefined* in this case   
@@ -262,7 +262,7 @@ method ignores <b>NO_EXIST</b>, expect *undefined* in this case
 </details>
 
 <details>
-<summary><tt>async db.<b>readpictureWhole</b>(...args)</tt> --> <tt><a href="lib/api/mutate/method.js#L127">readpictureWhole</a></tt></summary>
+<summary><tt>async db.<b>readpictureWhole</b>(...args)</tt> --> <tt><a href="lib/api/mutate/method.js#L132">readpictureWhole</a></tt></summary>
 <p>
 
 method ignores <b>NO_EXIST</b>, expect *undefined* in this case   
