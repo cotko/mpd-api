@@ -55,3 +55,11 @@
 @method albumartWhole
 @use albumartWhole
 @error ignore(NO_EXIST)
+
+@method readpicture
+@use readpicture
+@error ignore(NO_EXIST)
+
+@method readpictureWhole
+@use readpictureWhole
+@error ignore(NO_EXIST)
