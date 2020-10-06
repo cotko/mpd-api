@@ -1,6 +1,6 @@
 {
   "name": "mpd-api",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "MPD api module for Node.js",
   "main": "lib/index.js",
   "repository": "https://github.com/cotko/mpd-api",
