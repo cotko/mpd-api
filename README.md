@@ -9,7 +9,7 @@ Wraps the MPD client from [mpd2 module](https://github.com/cotko/mpd.js) with ap
 ### Usage
 
   ```
-  npm / yarn install mpd-api
+  npm i / yarn add mpd-api
   ```
 
   ```js
@@ -316,6 +316,24 @@ method ignores <b>EXIST</b>, expect *undefined* in this case
 
 <tt>async partition.<b>switchTo</b>(...args)</tt> --> <tt>partition ...args</tt>
 
+<details>
+<summary><tt>async partition.<b>delete</b>(...args)</tt> --> <tt>delpartition ...args</tt></summary>
+<p>
+
+method ignores <b>NO_EXIST</b>, expect *undefined* in this case   
+    
+</p>
+</details>
+
+<details>
+<summary><tt>async partition.<b>moveOutputToCurrentPartition</b>(...args)</tt> --> <tt>moveoutput ...args</tt></summary>
+<p>
+
+method ignores <b>NO_EXIST</b>, expect *undefined* in this case   
+    
+</p>
+</details>
+
 
 
 #####  Playback options and controls [MPD documentation](https://www.musicpd.org/doc/html/protocol.html#playback-options)
@@ -471,7 +489,7 @@ method reorderes or augments passed arguments, see <a href="lib/api/mutate/argum
 
 <tt>async queue.<b>find</b>(...args)</tt> --> <tt>playlistfind ...args</tt>
 
-<tt>async queue.<b>search</b>(...args)</tt> --> <tt>search ...args</tt>
+<tt>async queue.<b>search</b>(...args)</tt> --> <tt>playlistsearch ...args</tt>
 
 <tt>async queue.<b>prio</b>(...args)</tt> --> <tt>prio ...args</tt>
 

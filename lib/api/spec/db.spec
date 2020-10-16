@@ -52,7 +52,7 @@
 @use albumart
 @error ignore(NO_EXIST)
 
-@method albumartWhole
+@method albumartWhole albumart
 @use albumartWhole
 @error ignore(NO_EXIST)
 
@@ -60,6 +60,6 @@
 @use readpicture
 @error ignore(NO_EXIST)
 
-@method readpictureWhole
+@method readpictureWhole readpicture
 @use readpictureWhole
 @error ignore(NO_EXIST)

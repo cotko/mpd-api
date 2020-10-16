@@ -1,14 +1,12 @@
 'use strict'
 const util = require('util')
-const loadspec = require('../lib/api/loadspec')
-const pkg = require('../package.json')
 const fs = require('fs')
 const path = require('path')
+const { loadDoc, MPD_PROTO_URL } = require('./load')
 
-const MPD_PROTO_URL = 'https://www.musicpd.org/doc/html/protocol.html'
-
+// eslint-disable-next-line no-unused-vars
 const log = (...args) => console.log(
-  util.inspect(args, {depth: null, colors: true}))
+  util.inspect(args, { depth: null, colors: true }))
 
 let MUT_ARG_METHODS
 const MUT_ARG_LINK = 'lib/api/mutate/argument.js'
@@ -18,28 +16,18 @@ const MUT_FN_LINK = 'lib/api/mutate/method.js'
 
 const READMEFILE = path.join(__dirname, '../README.md')
 
-
 // generate simple md file based on method specs
 
 const genDoc = async () => {
-  const spec = await loadspec.load()
-  //log(spec)
-  const sections = []
-  for (let ns in spec) {
-    let methods = spec[ns]
-    let section = {
-      ns,
-      doc: methods._doc,
-      methods: []
-    }
-    for (let method in methods) {
-      if (method.startsWith('_')) {
-        continue
-      }
-      section.methods.push(await genMethod(ns, method, methods[method]))
-    }
-    sections.push(section)
-  }
+  await loadFiles()
+
+  let sections = await loadDoc(true)
+
+  sections = sections.map(section => {
+    section.methods = section.methods.map(genMethod)
+
+    return section
+  })
 
   return `### API
 
@@ -48,9 +36,8 @@ ${sections.map(genSection).join('')}
 `
 }
 
-
-const genMethod = async (ns, method, spec) => {
-  //console.log(method, spec)
+const genMethod = ({ ns, method, spec }) => {
+  // log('genMethod', method, spec)
   const { useMethod, mpdcmd, boundArgs, error, arguments: args } = spec
 
   const oMethod = `async ${ns}.<b>${method}</b>(...args)`
@@ -64,8 +51,8 @@ const genMethod = async (ns, method, spec) => {
   }
 
   let mCmd
-  if (useMethod) {
 
+  if (useMethod) {
     const useMethodFileInfo = MUT_FN_METHODS[useMethod]
     if (useMethodFileInfo === undefined) {
       console.error(
@@ -89,13 +76,12 @@ const genMethod = async (ns, method, spec) => {
     return mdMethod
   }
 
-
   if (hasBoundArgs) {
     notes.push(`
 method binds arguments which can not be changed
 `)
-
   }
+
   if (args) {
     let links = args.map(arg => {
       const aMethod = arg.path.join('.')
@@ -110,12 +96,8 @@ method binds arguments which can not be changed
       return `<a href="${MUT_ARG_LINK}#L${linepos}">${aMethod}</a>`
     })
 
-
-
-notes.push(`
-method reorderes or augments passed arguments, see ${links}
-`)
-
+    notes.push(`
+method reorderes or augments passed arguments, see ${links}\n`)
   }
 
   if (error) {
@@ -124,8 +106,6 @@ method ${err.path}s <b>${err.args[0]}</b>, expect *undefined* in this case
     `)
     notes.push(errors)
   }
-
-
 
   return `<details>
 <summary>${mdMethod}</summary>
@@ -136,7 +116,7 @@ ${notes.join('')}
 }
 
 const genSection = spec => {
-  const { methods, ns, doc } = spec
+  const { methods, doc } = spec
 
   const mdDoc = doc ? genSectionHead(doc) : ''
 
@@ -145,7 +125,6 @@ ${mdDoc}
 ${methods.join('\n\n')}
 
 `
-
 }
 
 const genSectionHead = doc => {
@@ -160,7 +139,7 @@ const genSectionHead = doc => {
         break
     }
     return acc
-  }, {title: '', link: ''})
+  }, { title: '', link: '' })
   return `
 ##### ${meta.title} ${meta.link}
 
@@ -197,16 +176,17 @@ const attachToREADME = async apidoc => {
   console.log('attaching to %s', READMEFILE)
   const readme = fs.readFileSync(READMEFILE)
     .toString()
-    .split('### API')[0]
-    + apidoc
+    .split('### API')[0] +
+    apidoc
   fs.writeFileSync(READMEFILE, readme)
   console.log('updated api doc attached')
 }
 
-loadFiles()
-.then(genDoc)
-.then(attachToREADME)
-.catch(e => {
-  console.error(e)
-  process.exit(1)
-})
+genDoc()
+  .then(genDoc)
+  .then(attachToREADME)
+  // .then(console.log.bind(console))
+  .catch(e => {
+    console.error(e)
+    process.exit(1)
+  })

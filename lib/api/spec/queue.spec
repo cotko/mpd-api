@@ -23,7 +23,7 @@
 @method find playlistfind
 @parser songs
 
-@method search
+@method search playlistsearch
 @parser songs
 
 

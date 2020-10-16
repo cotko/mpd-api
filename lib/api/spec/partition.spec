@@ -10,3 +10,9 @@
 @error ignore(EXIST)
 
 @method switchTo partition
+
+@method delete delpartition
+@error ignore(NO_EXIST)
+
+@method moveOutputToCurrentPartition moveoutput
+@error ignore(NO_EXIST)
