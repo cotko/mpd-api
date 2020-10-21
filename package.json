@@ -10,9 +10,10 @@
     "lint": "standard lib/**/*.js doc/*.js",
     "lintfix": "standard lib/**/*.js --fix",
     "todos": "grep -irn -B 1 -A 1 --colour todo lib/ || echo none found",
-    "todo": "grep -irn --colour -E '#\\s+@method' lib/api/spec/ || none missing",
+    "todo": "grep -irn --colour -E '#\\s+@method' lib/api/spec/ || echo none missing",
     "test": "node ./tests/",
-    "doc": "node ./doc/generate --attach",
+    "gen-doc": "node ./doc/generatedoc.js --attach",
+    "gen-typings": "node ./doc/generatetypings.js --indent=4",
     "scanformissingcommands": "node ./doc/scanformissingcmds.js"
   },
   "engines": {
@@ -41,5 +42,6 @@
   },
   "standard": {
     "ignore": []
-  }
+  },
+  "types": "./lib/index.d.ts"
 }
