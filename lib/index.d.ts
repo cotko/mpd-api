@@ -527,14 +527,14 @@ export declare namespace MPDApi {
         <T extends object>(...args: (string | typeof mpd.Command)[]): Promise<T>;
       }
       set: {
-        (name: string, value: string): Promise<void>;
+        (uri: string, name: string, value: string): Promise<void>;
       }
       get: {
         <T extends object>(args?: (string | typeof mpd.Command)[]): Promise<T>;
         <T extends object>(...args: (string | typeof mpd.Command)[]): Promise<T>;
       }
       delete: {
-        (name: string): Promise<void>;
+        (uri: string, name: string): Promise<void>;
       }
       deleteAll: {
         (args?: (string | typeof mpd.Command)[]): Promise<void>;

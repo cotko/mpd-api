@@ -27,8 +27,8 @@ const RETURN_TYPE_IS_NOT_LIST = {
 
 const ARGS_TS = {
   dblist: '(tag: string, filter: string | false, ...group_by_tags: string[])',
-  stickerSet: '(name: string, value: string)',
-  stickerDel: '(name: string)',
+  stickerSet: '(uri: string, name: string, value: string)',
+  stickerDel: '(uri: string, name: string)',
   stickerFind: '(name: string, uri?: string)',
   stickerSearch: '(name: string, value: string, comparator?: string, uri?: string)'
 }
