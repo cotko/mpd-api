@@ -20,8 +20,8 @@ export declare namespace MPDApi {
      */
     c2c: {
       list: {
-        <T extends Object>(args?: (string | typeof mpd.Command)[]): Promise<T[]>;
-        <T extends Object>(...args: (string | typeof mpd.Command)[]): Promise<T[]>;
+        <T extends object>(args?: (string | typeof mpd.Command)[]): Promise<T[]>;
+        <T extends object>(...args: (string | typeof mpd.Command)[]): Promise<T[]>;
       }
       subscribe: {
         (args?: (string | typeof mpd.Command)[]): Promise<void>;
@@ -36,8 +36,8 @@ export declare namespace MPDApi {
         (...args: (string | typeof mpd.Command)[]): Promise<void>;
       }
       readMessages: {
-        <T extends Object>(args?: (string | typeof mpd.Command)[]): Promise<T[]>;
-        <T extends Object>(...args: (string | typeof mpd.Command)[]): Promise<T[]>;
+        <T extends object>(args?: (string | typeof mpd.Command)[]): Promise<T[]>;
+        <T extends object>(...args: (string | typeof mpd.Command)[]): Promise<T[]>;
       }
     },
     /**
@@ -58,8 +58,8 @@ export declare namespace MPDApi {
         (...args: (string | typeof mpd.Command)[]): Promise<void>;
       }
       getTagTypes: {
-        <T extends Object>(args?: (string | typeof mpd.Command)[]): Promise<T[]>;
-        <T extends Object>(...args: (string | typeof mpd.Command)[]): Promise<T[]>;
+        <T extends object>(args?: (string | typeof mpd.Command)[]): Promise<T[]>;
+        <T extends object>(...args: (string | typeof mpd.Command)[]): Promise<T[]>;
       }
       enableTagTypes: {
         (args?: (string | typeof mpd.Command)[]): Promise<void>;
@@ -84,32 +84,32 @@ export declare namespace MPDApi {
      */
     db: {
       listall: {
-        <T extends Object>(args?: (string | typeof mpd.Command)[]): Promise<T[]>;
-        <T extends Object>(...args: (string | typeof mpd.Command)[]): Promise<T[]>;
+        <T extends object>(args?: (string | typeof mpd.Command)[]): Promise<T[]>;
+        <T extends object>(...args: (string | typeof mpd.Command)[]): Promise<T[]>;
       }
       listallinfo: {
-        <T extends Object>(args?: (string | typeof mpd.Command)[]): Promise<T[]>;
-        <T extends Object>(...args: (string | typeof mpd.Command)[]): Promise<T[]>;
+        <T extends object>(args?: (string | typeof mpd.Command)[]): Promise<T[]>;
+        <T extends object>(...args: (string | typeof mpd.Command)[]): Promise<T[]>;
       }
       list: {
-        <T extends Object>(args?: (string | typeof mpd.Command)[]): Promise<T[]>;
-        <T extends Object>(...args: (string | typeof mpd.Command)[]): Promise<T[]>;
+        <T extends object>(args?: (string | typeof mpd.Command)[]): Promise<T[]>;
+        <T extends object>(...args: (string | typeof mpd.Command)[]): Promise<T[]>;
       }
       count: {
-        <T extends Object>(args?: (string | typeof mpd.Command)[]): Promise<T[]>;
-        <T extends Object>(...args: (string | typeof mpd.Command)[]): Promise<T[]>;
+        <T extends object>(args?: (string | typeof mpd.Command)[]): Promise<T[]>;
+        <T extends object>(...args: (string | typeof mpd.Command)[]): Promise<T[]>;
       }
       find: {
-        <T extends Object>(args?: (string | typeof mpd.Command)[]): Promise<T[]>;
-        <T extends Object>(...args: (string | typeof mpd.Command)[]): Promise<T[]>;
+        <T extends object>(args?: (string | typeof mpd.Command)[]): Promise<T[]>;
+        <T extends object>(...args: (string | typeof mpd.Command)[]): Promise<T[]>;
       }
       findadd: {
         (args?: (string | typeof mpd.Command)[]): Promise<void>;
         (...args: (string | typeof mpd.Command)[]): Promise<void>;
       }
       search: {
-        <T extends Object>(args?: (string | typeof mpd.Command)[]): Promise<T[]>;
-        <T extends Object>(...args: (string | typeof mpd.Command)[]): Promise<T[]>;
+        <T extends object>(args?: (string | typeof mpd.Command)[]): Promise<T[]>;
+        <T extends object>(...args: (string | typeof mpd.Command)[]): Promise<T[]>;
       }
       searchadd: {
         (args?: (string | typeof mpd.Command)[]): Promise<void>;
@@ -120,28 +120,28 @@ export declare namespace MPDApi {
         (...args: (string | typeof mpd.Command)[]): Promise<void>;
       }
       lsinfo: {
-        <T extends Object>(args?: (string | typeof mpd.Command)[]): Promise<T>;
-        <T extends Object>(...args: (string | typeof mpd.Command)[]): Promise<T>;
+        <T extends object>(args?: (string | typeof mpd.Command)[]): Promise<T>;
+        <T extends object>(...args: (string | typeof mpd.Command)[]): Promise<T>;
       }
       listfiles: {
-        <T extends Object>(args?: (string | typeof mpd.Command)[]): Promise<T[]>;
-        <T extends Object>(...args: (string | typeof mpd.Command)[]): Promise<T[]>;
+        <T extends object>(args?: (string | typeof mpd.Command)[]): Promise<T[]>;
+        <T extends object>(...args: (string | typeof mpd.Command)[]): Promise<T[]>;
       }
       readcomments: {
-        <T extends Object>(args?: (string | typeof mpd.Command)[]): Promise<T>;
-        <T extends Object>(...args: (string | typeof mpd.Command)[]): Promise<T>;
+        <T extends object>(args?: (string | typeof mpd.Command)[]): Promise<T>;
+        <T extends object>(...args: (string | typeof mpd.Command)[]): Promise<T>;
       }
       rescan: {
-        <T extends Object>(args?: (string | typeof mpd.Command)[]): Promise<T>;
-        <T extends Object>(...args: (string | typeof mpd.Command)[]): Promise<T>;
+        <T extends object>(args?: (string | typeof mpd.Command)[]): Promise<T>;
+        <T extends object>(...args: (string | typeof mpd.Command)[]): Promise<T>;
       }
       update: {
-        <T extends Object>(args?: (string | typeof mpd.Command)[]): Promise<T>;
-        <T extends Object>(...args: (string | typeof mpd.Command)[]): Promise<T>;
+        <T extends object>(args?: (string | typeof mpd.Command)[]): Promise<T>;
+        <T extends object>(...args: (string | typeof mpd.Command)[]): Promise<T>;
       }
       getfingerprint: {
-        <T extends Object>(args?: (string | typeof mpd.Command)[]): Promise<T>;
-        <T extends Object>(...args: (string | typeof mpd.Command)[]): Promise<T>;
+        <T extends object>(args?: (string | typeof mpd.Command)[]): Promise<T>;
+        <T extends object>(...args: (string | typeof mpd.Command)[]): Promise<T>;
       }
       albumart: {
         (args?: (string | typeof mpd.Command)[]): Promise<void>;
@@ -166,8 +166,8 @@ export declare namespace MPDApi {
      */
     mounts: {
       list: {
-        <T extends Object>(args?: (string | typeof mpd.Command)[]): Promise<T[]>;
-        <T extends Object>(...args: (string | typeof mpd.Command)[]): Promise<T[]>;
+        <T extends object>(args?: (string | typeof mpd.Command)[]): Promise<T[]>;
+        <T extends object>(...args: (string | typeof mpd.Command)[]): Promise<T[]>;
       }
       listNeighbors: {
         (args?: (string | typeof mpd.Command)[]): Promise<void>;
@@ -188,8 +188,8 @@ export declare namespace MPDApi {
      */
     outputs: {
       list: {
-        <T extends Object>(args?: (string | typeof mpd.Command)[]): Promise<T[]>;
-        <T extends Object>(...args: (string | typeof mpd.Command)[]): Promise<T[]>;
+        <T extends object>(args?: (string | typeof mpd.Command)[]): Promise<T[]>;
+        <T extends object>(...args: (string | typeof mpd.Command)[]): Promise<T[]>;
       }
       enable: {
         (args?: (string | typeof mpd.Command)[]): Promise<void>;
@@ -214,8 +214,8 @@ export declare namespace MPDApi {
      */
     partition: {
       list: {
-        <T extends Object>(args?: (string | typeof mpd.Command)[]): Promise<T[]>;
-        <T extends Object>(...args: (string | typeof mpd.Command)[]): Promise<T[]>;
+        <T extends object>(args?: (string | typeof mpd.Command)[]): Promise<T[]>;
+        <T extends object>(...args: (string | typeof mpd.Command)[]): Promise<T[]>;
       }
       create: {
         (args?: (string | typeof mpd.Command)[]): Promise<void>;
@@ -284,6 +284,10 @@ export declare namespace MPDApi {
         (args?: (string | typeof mpd.Command)[]): Promise<void>;
         (...args: (string | typeof mpd.Command)[]): Promise<void>;
       }
+      getvol: {
+        <T extends object>(args?: (string | typeof mpd.Command)[]): Promise<T>;
+        <T extends object>(...args: (string | typeof mpd.Command)[]): Promise<T>;
+      }
       consume: {
         (args?: (string | typeof mpd.Command)[]): Promise<void>;
         (...args: (string | typeof mpd.Command)[]): Promise<void>;
@@ -321,8 +325,8 @@ export declare namespace MPDApi {
         (...args: (string | typeof mpd.Command)[]): Promise<void>;
       }
       getReplayGain: {
-        <T extends Object>(args?: (string | typeof mpd.Command)[]): Promise<T>;
-        <T extends Object>(...args: (string | typeof mpd.Command)[]): Promise<T>;
+        <T extends object>(args?: (string | typeof mpd.Command)[]): Promise<T>;
+        <T extends object>(...args: (string | typeof mpd.Command)[]): Promise<T>;
       }
     },
     /**
@@ -331,16 +335,16 @@ export declare namespace MPDApi {
      */
     playlists: {
       get: {
-        <T extends Object>(args?: (string | typeof mpd.Command)[]): Promise<T[]>;
-        <T extends Object>(...args: (string | typeof mpd.Command)[]): Promise<T[]>;
+        <T extends object>(args?: (string | typeof mpd.Command)[]): Promise<T[]>;
+        <T extends object>(...args: (string | typeof mpd.Command)[]): Promise<T[]>;
       }
       list: {
-        <T extends Object>(args?: (string | typeof mpd.Command)[]): Promise<T[]>;
-        <T extends Object>(...args: (string | typeof mpd.Command)[]): Promise<T[]>;
+        <T extends object>(args?: (string | typeof mpd.Command)[]): Promise<T[]>;
+        <T extends object>(...args: (string | typeof mpd.Command)[]): Promise<T[]>;
       }
       listinfo: {
-        <T extends Object>(args?: (string | typeof mpd.Command)[]): Promise<T[]>;
-        <T extends Object>(...args: (string | typeof mpd.Command)[]): Promise<T[]>;
+        <T extends object>(args?: (string | typeof mpd.Command)[]): Promise<T[]>;
+        <T extends object>(...args: (string | typeof mpd.Command)[]): Promise<T[]>;
       }
       load: {
         (args?: (string | typeof mpd.Command)[]): Promise<void>;
@@ -385,20 +389,20 @@ export declare namespace MPDApi {
         (...args: (string | typeof mpd.Command)[]): Promise<void>;
       }
       addid: {
-        <T extends Object>(args?: (string | typeof mpd.Command)[]): Promise<T>;
-        <T extends Object>(...args: (string | typeof mpd.Command)[]): Promise<T>;
+        <T extends object>(args?: (string | typeof mpd.Command)[]): Promise<T>;
+        <T extends object>(...args: (string | typeof mpd.Command)[]): Promise<T>;
       }
       clear: {
         (args?: (string | typeof mpd.Command)[]): Promise<void>;
         (...args: (string | typeof mpd.Command)[]): Promise<void>;
       }
       info: {
-        <T extends Object>(args?: (string | typeof mpd.Command)[]): Promise<T[]>;
-        <T extends Object>(...args: (string | typeof mpd.Command)[]): Promise<T[]>;
+        <T extends object>(args?: (string | typeof mpd.Command)[]): Promise<T[]>;
+        <T extends object>(...args: (string | typeof mpd.Command)[]): Promise<T[]>;
       }
       id: {
-        <T extends Object>(args?: (string | typeof mpd.Command)[]): Promise<T[]>;
-        <T extends Object>(...args: (string | typeof mpd.Command)[]): Promise<T[]>;
+        <T extends object>(args?: (string | typeof mpd.Command)[]): Promise<T[]>;
+        <T extends object>(...args: (string | typeof mpd.Command)[]): Promise<T[]>;
       }
       delete: {
         (args?: (string | typeof mpd.Command)[]): Promise<void>;
@@ -417,12 +421,12 @@ export declare namespace MPDApi {
         (...args: (string | typeof mpd.Command)[]): Promise<void>;
       }
       find: {
-        <T extends Object>(args?: (string | typeof mpd.Command)[]): Promise<T[]>;
-        <T extends Object>(...args: (string | typeof mpd.Command)[]): Promise<T[]>;
+        <T extends object>(args?: (string | typeof mpd.Command)[]): Promise<T[]>;
+        <T extends object>(...args: (string | typeof mpd.Command)[]): Promise<T[]>;
       }
       search: {
-        <T extends Object>(args?: (string | typeof mpd.Command)[]): Promise<T[]>;
-        <T extends Object>(...args: (string | typeof mpd.Command)[]): Promise<T[]>;
+        <T extends object>(args?: (string | typeof mpd.Command)[]): Promise<T[]>;
+        <T extends object>(...args: (string | typeof mpd.Command)[]): Promise<T[]>;
       }
       prio: {
         (args?: (string | typeof mpd.Command)[]): Promise<void>;
@@ -453,12 +457,12 @@ export declare namespace MPDApi {
         (...args: (string | typeof mpd.Command)[]): Promise<void>;
       }
       getChanges: {
-        <T extends Object>(args?: (string | typeof mpd.Command)[]): Promise<T[]>;
-        <T extends Object>(...args: (string | typeof mpd.Command)[]): Promise<T[]>;
+        <T extends object>(args?: (string | typeof mpd.Command)[]): Promise<T[]>;
+        <T extends object>(...args: (string | typeof mpd.Command)[]): Promise<T[]>;
       }
       getChangesPosId: {
-        <T extends Object>(args?: (string | typeof mpd.Command)[]): Promise<T[]>;
-        <T extends Object>(...args: (string | typeof mpd.Command)[]): Promise<T[]>;
+        <T extends object>(args?: (string | typeof mpd.Command)[]): Promise<T[]>;
+        <T extends object>(...args: (string | typeof mpd.Command)[]): Promise<T[]>;
       }
       rangeid: {
         (args?: (string | typeof mpd.Command)[]): Promise<void>;
@@ -471,24 +475,24 @@ export declare namespace MPDApi {
      */
     reflection: {
       config: {
-        <T extends Object>(args?: (string | typeof mpd.Command)[]): Promise<T>;
-        <T extends Object>(...args: (string | typeof mpd.Command)[]): Promise<T>;
+        <T extends object>(args?: (string | typeof mpd.Command)[]): Promise<T>;
+        <T extends object>(...args: (string | typeof mpd.Command)[]): Promise<T>;
       }
       commands: {
-        <T extends Object>(args?: (string | typeof mpd.Command)[]): Promise<T[]>;
-        <T extends Object>(...args: (string | typeof mpd.Command)[]): Promise<T[]>;
+        <T extends object>(args?: (string | typeof mpd.Command)[]): Promise<T[]>;
+        <T extends object>(...args: (string | typeof mpd.Command)[]): Promise<T[]>;
       }
       notcommands: {
-        <T extends Object>(args?: (string | typeof mpd.Command)[]): Promise<T[]>;
-        <T extends Object>(...args: (string | typeof mpd.Command)[]): Promise<T[]>;
+        <T extends object>(args?: (string | typeof mpd.Command)[]): Promise<T[]>;
+        <T extends object>(...args: (string | typeof mpd.Command)[]): Promise<T[]>;
       }
       urlhandlers: {
-        <T extends Object>(args?: (string | typeof mpd.Command)[]): Promise<T[]>;
-        <T extends Object>(...args: (string | typeof mpd.Command)[]): Promise<T[]>;
+        <T extends object>(args?: (string | typeof mpd.Command)[]): Promise<T[]>;
+        <T extends object>(...args: (string | typeof mpd.Command)[]): Promise<T[]>;
       }
       decoders: {
-        <T extends Object>(args?: (string | typeof mpd.Command)[]): Promise<T[]>;
-        <T extends Object>(...args: (string | typeof mpd.Command)[]): Promise<T[]>;
+        <T extends object>(args?: (string | typeof mpd.Command)[]): Promise<T[]>;
+        <T extends object>(...args: (string | typeof mpd.Command)[]): Promise<T[]>;
       }
     },
     /**
@@ -497,20 +501,20 @@ export declare namespace MPDApi {
      */
     status: {
       get: {
-        <T extends Object>(args?: (string | typeof mpd.Command)[]): Promise<T>;
-        <T extends Object>(...args: (string | typeof mpd.Command)[]): Promise<T>;
+        <T extends object>(args?: (string | typeof mpd.Command)[]): Promise<T>;
+        <T extends object>(...args: (string | typeof mpd.Command)[]): Promise<T>;
       }
       clearerror: {
         (args?: (string | typeof mpd.Command)[]): Promise<void>;
         (...args: (string | typeof mpd.Command)[]): Promise<void>;
       }
       currentsong: {
-        <T extends Object>(args?: (string | typeof mpd.Command)[]): Promise<T>;
-        <T extends Object>(...args: (string | typeof mpd.Command)[]): Promise<T>;
+        <T extends object>(args?: (string | typeof mpd.Command)[]): Promise<T>;
+        <T extends object>(...args: (string | typeof mpd.Command)[]): Promise<T>;
       }
       stats: {
-        <T extends Object>(args?: (string | typeof mpd.Command)[]): Promise<T>;
-        <T extends Object>(...args: (string | typeof mpd.Command)[]): Promise<T>;
+        <T extends object>(args?: (string | typeof mpd.Command)[]): Promise<T>;
+        <T extends object>(...args: (string | typeof mpd.Command)[]): Promise<T>;
       }
     },
     /**
@@ -519,32 +523,28 @@ export declare namespace MPDApi {
      */
     sticker: {
       list: {
-        <T extends Object>(args?: (string | typeof mpd.Command)[]): Promise<T>;
-        <T extends Object>(...args: (string | typeof mpd.Command)[]): Promise<T>;
+        <T extends object>(args?: (string | typeof mpd.Command)[]): Promise<T>;
+        <T extends object>(...args: (string | typeof mpd.Command)[]): Promise<T>;
       }
       set: {
-        (args?: (string | typeof mpd.Command)[]): Promise<void>;
-        (...args: (string | typeof mpd.Command)[]): Promise<void>;
+        (name: string, value: string): Promise<void>;
       }
       get: {
-        <T extends Object>(args?: (string | typeof mpd.Command)[]): Promise<T>;
-        <T extends Object>(...args: (string | typeof mpd.Command)[]): Promise<T>;
+        <T extends object>(args?: (string | typeof mpd.Command)[]): Promise<T>;
+        <T extends object>(...args: (string | typeof mpd.Command)[]): Promise<T>;
       }
       delete: {
-        (args?: (string | typeof mpd.Command)[]): Promise<void>;
-        (...args: (string | typeof mpd.Command)[]): Promise<void>;
+        (name: string): Promise<void>;
       }
       deleteAll: {
         (args?: (string | typeof mpd.Command)[]): Promise<void>;
         (...args: (string | typeof mpd.Command)[]): Promise<void>;
       }
       find: {
-        <T extends Object>(args?: (string | typeof mpd.Command)[]): Promise<T[]>;
-        <T extends Object>(...args: (string | typeof mpd.Command)[]): Promise<T[]>;
+        <T extends object>(name: string, uri?: string): Promise<T[]>;
       }
       search: {
-        <T extends Object>(args?: (string | typeof mpd.Command)[]): Promise<T[]>;
-        <T extends Object>(...args: (string | typeof mpd.Command)[]): Promise<T[]>;
+        <T extends object>(name: string, value: string, comparator?: string, uri?: string): Promise<T[]>;
       }
     },
   }

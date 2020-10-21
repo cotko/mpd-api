@@ -13,6 +13,7 @@ const INDENT = parseInt(
     .split('=').pop()
 )
 
+// true for objects, string for others
 const RETURN_TYPE_IS_NOT_LIST = {
   parser: {
     object: true
@@ -22,6 +23,14 @@ const RETURN_TYPE_IS_NOT_LIST = {
     dbListInfo: true,
     stickerList: true
   }
+}
+
+const ARGS_TS = {
+  dblist: '(tag: string, filter: string | false, ...group_by_tags: string[])',
+  stickerSet: '(name: string, value: string)',
+  stickerDel: '(name: string)',
+  stickerFind: '(name: string, uri?: string)',
+  stickerSearch: '(name: string, value: string, comparator?: string, uri?: string)'
 }
 
 const generateTypings = async () => {
@@ -78,17 +87,28 @@ const getMPDDocLink = spec => `${MPD_PROTO_URL}${spec.args[0].replace('!', '#')}
 
 const getMethodTyping = method => {
   const indent = indentStr(2)
-  console.log(method)
-  const [
-    declareType,
-    retType
-  ] = getMethodReturnType('T', method.spec)
-  return [
-    `${method.method}: {`,
-    `${indent}${declareType}(args?: (string | typeof mpd.Command)[]): Promise<${retType}>;`,
-    `${indent}${declareType}(...args: (string | typeof mpd.Command)[]): Promise<${retType}>;`,
-    '}'
+  const [ declareType, retType ] = getMethodReturnType('T', method.spec)
+
+  const argOverriden = method.spec.arguments
+    ? ARGS_TS[method.spec.arguments[method.spec.arguments.length - 1].path.join('.')]
+    : false
+
+  const methods = [
+    argOverriden ? [
+      argOverriden
+    ] : [
+      `(args?: (string | typeof mpd.Command)[])`,
+      `(...args: (string | typeof mpd.Command)[])`
+    ]
   ]
+    .flat()
+    .map(methodStr => `${indent}${declareType}${methodStr}: Promise<${retType}>;`)
+
+  return [
+    `${method.method}: {`
+  ]
+    .concat(methods)
+    .concat([ '}' ])
 }
 
 const getMethodReturnType = (typ = 'T', spec) => {
@@ -110,11 +130,17 @@ const getMethodReturnType = (typ = 'T', spec) => {
   }
 
   const declareType = parsersFound
-    ? `<${typ} extends Object>`
+    ? typeof notList === 'string'
+      ? ''
+      : `<${typ} extends object>`
     : ''
 
   const retType = parsersFound
-    ? notList ? typ : `${typ}[]`
+    ? notList
+      ? typeof notList === 'string'
+        ? notList
+        : typ
+      : `${typ}[]`
     : 'void'
 
   return [declareType, retType]

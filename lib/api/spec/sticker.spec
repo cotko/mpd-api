@@ -18,7 +18,7 @@
 @error ignore(NO_EXIST) # can be silenced
 
 @method delete sticker delete song
-@arguments stickerSet
+@arguments stickerDel
 @error ignore(NO_EXIST) # can be silenced
 
 @method deleteAll sticker delete song

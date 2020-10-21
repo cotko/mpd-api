@@ -15,6 +15,9 @@
 @method seek seek
 @method seekid
 
+@method getvol
+@parser object
+
 @method consume
 @arguments boolAt(0)
 
