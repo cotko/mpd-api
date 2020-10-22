@@ -1,6 +1,6 @@
 {
   "name": "mpd-api",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "MPD api module for Node.js",
   "main": "lib/index.js",
   "repository": "https://github.com/cotko/mpd-api",
@@ -34,7 +34,7 @@
   "dependencies": {
     "debug": "^4.2.0",
     "file-type": "^15.0.1",
-    "mpd2": "^1.0.0"
+    "mpd2": "^1.0.3"
   },
   "devDependencies": {
     "standard": "^12.0.1",
