@@ -109,7 +109,7 @@ Wraps the MPD client from [mpd2 module](https://github.com/cotko/mpd.js) with ap
 
 #### typescript
 
-  ```
+  ```typescript
   // typings included
 
   import api, { MPDApi } from 'mpd-api'
