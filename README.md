@@ -107,6 +107,51 @@ Wraps the MPD client from [mpd2 module](https://github.com/cotko/mpd.js) with ap
 
   ```
 
+#### typescript
+
+  ```
+  // typings included
+
+  import api, { MPDApi } from 'mpd-api'
+
+  type Status = {
+    volume: number
+    repeat: boolean
+    playlist: number
+    state: 'play' | 'stop' | 'pause'
+    // ...
+  }
+
+  type ListAllInfo = {
+    directory: string
+    last_modified: string
+    file?: File[]
+  }
+
+  type File = {
+    file: string
+    last_modified: string
+    format: string
+    time: number
+    artist: string
+    title: string
+    // ...
+  }
+
+  const client: MPDApi.ClientAPI = await api.connect()
+
+  const status = await client.api.status.get<Status>()
+  console.log('state:', status.state)
+
+  const lsAll = await client.api.db.listallinfo<ListAllInfo>()
+  console.log('first directory: %s, files: %o', lsAll[0].directory, lsAll[0].file)
+
+
+  // reference to mpd2 module:
+  api.mpd.normalizeKeys(false)
+
+  ```
+
 
 
 

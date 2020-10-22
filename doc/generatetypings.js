@@ -30,7 +30,29 @@ const ARGS_TS = {
   stickerSet: '(uri: string, name: string, value: string)',
   stickerDel: '(uri: string, name: string)',
   stickerFind: '(name: string, uri?: string)',
-  stickerSearch: '(name: string, value: string, comparator?: string, uri?: string)'
+  stickerSearch: '(name: string, value: string, comparator: string = "=", uri?: string)'
+}
+const METHODS_TS = {
+  albumart: {
+    args: '(uri: string, offset: number = 0)',
+    declareType: '<T extends object>',
+    retType: 'T'
+  },
+  albumartWhole: {
+    args: '(uri: string)',
+    declareType: '<T extends object>',
+    retType: 'T'
+  },
+  readpicture: {
+    args: '(uri: string, offset: number = 0)',
+    declareType: '<T extends object>',
+    retType: 'T'
+  },
+  readpictureWhole: {
+    args: '(uri: string)',
+    declareType: '<T extends object>',
+    retType: 'T'
+  }
 }
 
 const generateTypings = async () => {
@@ -87,11 +109,24 @@ const getMPDDocLink = spec => `${MPD_PROTO_URL}${spec.args[0].replace('!', '#')}
 
 const getMethodTyping = method => {
   const indent = indentStr(2)
-  const [ declareType, retType ] = getMethodReturnType('T', method.spec)
+  let [ declareType, retType ] = getMethodReturnType('T', method.spec)
 
-  const argOverriden = method.spec.arguments
+  const comment = [
+    '/**',
+    ` * mpd command: \`${method.spec.mpdcmd}\``,
+    ' */'
+  ]
+
+  let argOverriden = method.spec.arguments
     ? ARGS_TS[method.spec.arguments[method.spec.arguments.length - 1].path.join('.')]
     : false
+
+  if (!argOverriden && method.spec.useMethod) {
+    const useMethodSpec = METHODS_TS[method.spec.useMethod]
+    argOverriden = useMethodSpec.args
+    declareType = useMethodSpec.declareType
+    retType = useMethodSpec.retType
+  }
 
   const methods = [
     argOverriden ? [
@@ -105,9 +140,13 @@ const getMethodTyping = method => {
     .map(methodStr => `${indent}${declareType}${methodStr}: Promise<${retType}>;`)
 
   return [
+    comment,
     `${method.method}: {`
   ]
-    .concat(methods)
+    .flat()
+    .concat(
+      methods
+    )
     .concat([ '}' ])
 }
 
