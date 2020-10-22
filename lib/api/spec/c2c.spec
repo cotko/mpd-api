@@ -2,7 +2,6 @@
 @linkmpd !client-to-client
 @desc Client to client communication
 
-
 @method list channels
 @parser list.by(channel)
 @reducer pickBy(channel)

@@ -1,7 +1,7 @@
 ## node mpd client api
 
 
-Api implementation for [music player daemon](https://musicpd.org) ([GIT](https://github.com/MusicPlayerDaemon/MPD)) protocol.
+Api implementation for [Music Player Daemon](https://musicpd.org) ([GIT](https://github.com/MusicPlayerDaemon/MPD)) protocol.
 
 Wraps the MPD client from [mpd2 module](https://github.com/cotko/mpd.js) with api methods exposed as *client.api*.`x`
 

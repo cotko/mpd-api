@@ -5,7 +5,7 @@
 # force `song` as type for all methods because MPD
 # only implements this type for stickers
 
-@method list sticker list song 
+@method list sticker list song
 @parser list
 @reducer stickerList
 
