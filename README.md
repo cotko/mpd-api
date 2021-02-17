@@ -237,6 +237,8 @@ method binds arguments which can not be changed
 </p>
 </details>
 
+<tt>async connection.<b>binarylimit</b>(...args)</tt> --> <tt>binarylimit ...args</tt>
+
 
 
 #####  The music database [MPD documentation](https://www.musicpd.org/doc/html/protocol.html#the-music-database)

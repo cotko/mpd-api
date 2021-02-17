@@ -14,3 +14,5 @@
 @method disableTagTypes tagtypes disable
 @method clearTagTypes tagtypes clear
 @method enableAllTagTypes tagtypes all
+
+@method binarylimit

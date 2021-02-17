@@ -116,6 +116,13 @@ export declare namespace MPDApi {
         (args?: (string | typeof mpd.Command)[]): Promise<void>;
         (...args: (string | typeof mpd.Command)[]): Promise<void>;
       }
+      /**
+       * mpd command: `binarylimit`
+       */
+      binarylimit: {
+        (args?: (string | typeof mpd.Command)[]): Promise<void>;
+        (...args: (string | typeof mpd.Command)[]): Promise<void>;
+      }
     },
     /**
      * [MPD doc](https://www.musicpd.org/doc/html/protocol.html#the-music-database)
