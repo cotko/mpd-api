@@ -33,6 +33,10 @@
 @parser dbListInfo
 @reducer dbListInfo
 
+@method songinfo lsinfo
+@parser dbListInfo
+@reducer pickFirst
+
 @method listfiles
 @parser dbListInfo
 

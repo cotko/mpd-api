@@ -271,6 +271,8 @@ method reorderes or augments passed arguments, see <a href="lib/api/mutate/argum
 
 <tt>async db.<b>lsinfo</b>(...args)</tt> --> <tt>lsinfo ...args</tt>
 
+<tt>async db.<b>songinfo</b>(...args)</tt> --> <tt>lsinfo ...args</tt>
+
 <tt>async db.<b>listfiles</b>(...args)</tt> --> <tt>listfiles ...args</tt>
 
 <tt>async db.<b>readcomments</b>(...args)</tt> --> <tt>readcomments ...args</tt>
