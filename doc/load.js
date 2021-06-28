@@ -1,7 +1,7 @@
 'use strict'
 const loadspec = require('../lib/api/loadspec')
 
-exports.MPD_PROTO_URL = 'https://www.musicpd.org/doc/html/protocol.html'
+exports.MPD_PROTO_URL = 'https://mpd.readthedocs.io/en/latest/protocol.html'
 
 exports.loadDoc = async (docspec = false) => {
   const spec = await loadspec.load(docspec)
