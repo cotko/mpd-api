@@ -2,6 +2,7 @@
 // const util = require('util')
 const { loadDoc, MPD_PROTO_URL } = require('./load')
 const xray = require('x-ray')
+// const superagent = require('superagent')
 
 const cReset = '\x1b[0m'
 const cBlue = '\x1b[34m'
@@ -18,7 +19,8 @@ const NOT_COMMANDS = [
 ]
 
 const findMissingCommands = async () => {
-  const mpdCommands = await getMPDCommands()
+  const mpdCommands = await getMPDCommandsWeb()
+  // const mpdCommands = await getMPDCommandsGit()
   const localCommands = await loadLocalCommands()
 
   // console.log(util.inspect(mpdCommands, {colors: true, depth: null}))
@@ -34,7 +36,7 @@ const findMissingCommands = async () => {
 
   const allCmds = uniqArray(localCmds.concat(mpdCmds)).sort()
 
-  for (let cmd of allCmds) {
+  for (const cmd of allCmds) {
     const hasL = ~localCmds.indexOf(cmd)
     const hasM = ~mpdCmds.indexOf(cmd)
     if (hasL && !hasM) {
@@ -87,15 +89,15 @@ const loadLocalCommands = async () => {
     .flat()
 }
 
-const getMPDCommands = async () => {
+const getMPDCommandsWeb = async () => {
   const xr = xray()
 
   const spec = await xr(
     MPD_PROTO_URL,
-    xr('#command-reference > div', [{
+    xr('#command-reference > section', [{
       section: '@id',
       // methods: xr('div', ['dl > dt > strong'])
-      commands: xr('div', ['strong.command'])
+      commands: xr('dl,p', ['strong.command'])
     }])
   )
 
@@ -110,6 +112,39 @@ const getMPDCommands = async () => {
     )
     .flat()
 }
+
+// const getMPDCommandsGit = async () => {
+//  return (
+//    (await superagent.get(`${MPD_GIT_RAW_URL}/master/src/command/AllCommands.cxx`))
+//      .text
+//      .split('command commands[] = {')
+//      .pop().split(/\n/g)
+//      .reduce((cmds, line, _pos, origArray) => {
+//        line = line.trim()
+//
+//        // end of commands
+//        if (line === '};') {
+//          origArray.length = 0 // "break"..
+//          return cmds
+//        }
+//
+//        if (!line.startsWith('{')) {
+//          return cmds
+//        }
+//
+//        const cmd = line
+//          .replace(/"/g, '')
+//          .split(/{|,/g)
+//          .map(s => s.trim())
+//          .filter(s => s.length)
+//          .shift()
+//
+//        cmds.push(cmd)
+//
+//        return cmds
+//      }, [])
+//    )
+// }
 
 const cleanCommand = method => method.split(/{|\[|\s/g).shift().trim()
 const uniqArray = arr => Object.keys(arr.reduce((m, val) => ({ ...m, [val]: true }), {}))

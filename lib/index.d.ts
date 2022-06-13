@@ -15,7 +15,7 @@ export declare namespace MPDApi {
 
   interface APIS {
     /**
-     * [MPD doc](https://www.musicpd.org/doc/html/protocol.html#client-to-client)
+     * [MPD doc](https://mpd.readthedocs.io/en/latest/protocol.html#client-to-client)
      * Client to client communication
      */
     c2c: {
@@ -56,7 +56,7 @@ export declare namespace MPDApi {
       }
     },
     /**
-     * [MPD doc](https://www.musicpd.org/doc/html/protocol.html#connection-settings)
+     * [MPD doc](https://mpd.readthedocs.io/en/latest/protocol.html#connection-settings)
      * Connection settings
      */
     connection: {
@@ -125,7 +125,7 @@ export declare namespace MPDApi {
       }
     },
     /**
-     * [MPD doc](https://www.musicpd.org/doc/html/protocol.html#the-music-database)
+     * [MPD doc](https://mpd.readthedocs.io/en/latest/protocol.html#the-music-database)
      * The music database
      */
     db: {
@@ -200,6 +200,13 @@ export declare namespace MPDApi {
         <T extends object>(...args: (string | typeof mpd.Command)[]): Promise<T>;
       }
       /**
+       * mpd command: `lsinfo`
+       */
+      songinfo: {
+        <T extends object>(args?: (string | typeof mpd.Command)[]): Promise<T>;
+        <T extends object>(...args: (string | typeof mpd.Command)[]): Promise<T>;
+      }
+      /**
        * mpd command: `listfiles`
        */
       listfiles: {
@@ -238,7 +245,7 @@ export declare namespace MPDApi {
        * mpd command: `albumart`
        */
       albumart: {
-        <T extends object>(uri: string, offset: number = 0): Promise<T>;
+        <T extends object>(uri: string, offset?: number): Promise<T>;
       }
       /**
        * mpd command: `albumart`
@@ -250,7 +257,7 @@ export declare namespace MPDApi {
        * mpd command: `readpicture`
        */
       readpicture: {
-        <T extends object>(uri: string, offset: number = 0): Promise<T>;
+        <T extends object>(uri: string, offset?: number): Promise<T>;
       }
       /**
        * mpd command: `readpicture`
@@ -260,7 +267,7 @@ export declare namespace MPDApi {
       }
     },
     /**
-     * [MPD doc](https://www.musicpd.org/doc/html/protocol.html#mounts-and-neighbors)
+     * [MPD doc](https://mpd.readthedocs.io/en/latest/protocol.html#mounts-and-neighbors)
      * Mounts and neighbors
      */
     mounts: {
@@ -294,7 +301,7 @@ export declare namespace MPDApi {
       }
     },
     /**
-     * [MPD doc](https://www.musicpd.org/doc/html/protocol.html#audio-output-devices)
+     * [MPD doc](https://mpd.readthedocs.io/en/latest/protocol.html#audio-output-devices)
      * Audio output devices
      */
     outputs: {
@@ -335,7 +342,7 @@ export declare namespace MPDApi {
       }
     },
     /**
-     * [MPD doc](https://www.musicpd.org/doc/html/protocol.html#partition-commands)
+     * [MPD doc](https://mpd.readthedocs.io/en/latest/protocol.html#partition-commands)
      * Partition commands
      */
     partition: {
@@ -376,8 +383,8 @@ export declare namespace MPDApi {
       }
     },
     /**
-     * [MPD doc](https://www.musicpd.org/doc/html/protocol.html#controlling-playback)
-     * [MPD doc](https://www.musicpd.org/doc/html/protocol.html#playback-options)
+     * [MPD doc](https://mpd.readthedocs.io/en/latest/protocol.html#controlling-playback)
+     * [MPD doc](https://mpd.readthedocs.io/en/latest/protocol.html#playback-options)
      * Playback options and controls
      */
     playback: {
@@ -537,7 +544,7 @@ export declare namespace MPDApi {
       }
     },
     /**
-     * [MPD doc](https://www.musicpd.org/doc/html/protocol.html#stored-playlists)
+     * [MPD doc](https://mpd.readthedocs.io/en/latest/protocol.html#stored-playlists)
      * Stored playlists
      */
     playlists: {
@@ -620,7 +627,7 @@ export declare namespace MPDApi {
       }
     },
     /**
-     * [MPD doc](https://www.musicpd.org/doc/html/protocol.html#the-queue)
+     * [MPD doc](https://mpd.readthedocs.io/en/latest/protocol.html#the-queue)
      * The Queue
      */
     queue: {
@@ -773,7 +780,7 @@ export declare namespace MPDApi {
       }
     },
     /**
-     * [MPD doc](https://www.musicpd.org/doc/html/protocol.html#reflection)
+     * [MPD doc](https://mpd.readthedocs.io/en/latest/protocol.html#reflection)
      * Reflection
      */
     reflection: {
@@ -814,7 +821,7 @@ export declare namespace MPDApi {
       }
     },
     /**
-     * [MPD doc](https://www.musicpd.org/doc/html/protocol.html#querying-mpd-s-status)
+     * [MPD doc](https://mpd.readthedocs.io/en/latest/protocol.html#querying-mpd-s-status)
      * Querying MPD’s status
      */
     status: {
@@ -848,7 +855,7 @@ export declare namespace MPDApi {
       }
     },
     /**
-     * [MPD doc](https://www.musicpd.org/doc/html/protocol.html#stickers)
+     * [MPD doc](https://mpd.readthedocs.io/en/latest/protocol.html#stickers)
      * Stickers
      */
     sticker: {
@@ -895,7 +902,7 @@ export declare namespace MPDApi {
        * mpd command: `sticker`
        */
       search: {
-        <T extends object>(name: string, value: string, comparator: string = "=", uri?: string): Promise<T[]>;
+        <T extends object>(name: string, value: string, comparator?: string, uri?: string): Promise<T[]>;
       }
     },
   }

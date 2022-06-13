@@ -161,7 +161,7 @@ Wraps the MPD client from [mpd2 module](https://github.com/cotko/mpd.js) with ap
 
 
 
-#####  Client to client communication [MPD documentation](https://www.musicpd.org/doc/html/protocol.html#client-to-client)
+#####  Client to client communication [MPD documentation](https://mpd.readthedocs.io/en/latest/protocol.html#client-to-client)
 
 
 <tt>async c2c.<b>list</b>(...args)</tt> --> <tt>channels ...args</tt>
@@ -190,7 +190,7 @@ method ignores <b>NO_EXIST</b>, expect *undefined* in this case
 
 
 
-#####  Connection settings [MPD documentation](https://www.musicpd.org/doc/html/protocol.html#connection-settings)
+#####  Connection settings [MPD documentation](https://mpd.readthedocs.io/en/latest/protocol.html#connection-settings)
 
 
 <tt>async connection.<b>close</b>(...args)</tt> --> <tt>close ...args</tt>
@@ -241,7 +241,7 @@ method binds arguments which can not be changed
 
 
 
-#####  The music database [MPD documentation](https://www.musicpd.org/doc/html/protocol.html#the-music-database)
+#####  The music database [MPD documentation](https://mpd.readthedocs.io/en/latest/protocol.html#the-music-database)
 
 
 <tt>async db.<b>listall</b>(...args)</tt> --> <tt>listall ...args</tt>
@@ -321,7 +321,7 @@ method ignores <b>NO_EXIST</b>, expect *undefined* in this case
 
 
 
-#####  Mounts and neighbors [MPD documentation](https://www.musicpd.org/doc/html/protocol.html#mounts-and-neighbors)
+#####  Mounts and neighbors [MPD documentation](https://mpd.readthedocs.io/en/latest/protocol.html#mounts-and-neighbors)
 
 
 <tt>async mounts.<b>list</b>(...args)</tt> --> <tt>listmounts ...args</tt>
@@ -334,7 +334,7 @@ method ignores <b>NO_EXIST</b>, expect *undefined* in this case
 
 
 
-#####  Audio output devices [MPD documentation](https://www.musicpd.org/doc/html/protocol.html#audio-output-devices)
+#####  Audio output devices [MPD documentation](https://mpd.readthedocs.io/en/latest/protocol.html#audio-output-devices)
 
 
 <tt>async outputs.<b>list</b>(...args)</tt> --> <tt>outputs ...args</tt>
@@ -349,7 +349,7 @@ method ignores <b>NO_EXIST</b>, expect *undefined* in this case
 
 
 
-#####  Partition commands [MPD documentation](https://www.musicpd.org/doc/html/protocol.html#partition-commands)
+#####  Partition commands [MPD documentation](https://mpd.readthedocs.io/en/latest/protocol.html#partition-commands)
 
 
 <tt>async partition.<b>list</b>(...args)</tt> --> <tt>listpartitions ...args</tt>
@@ -385,7 +385,7 @@ method ignores <b>NO_EXIST</b>, expect *undefined* in this case
 
 
 
-#####  Playback options and controls [MPD documentation](https://www.musicpd.org/doc/html/protocol.html#playback-options)
+#####  Playback options and controls [MPD documentation](https://mpd.readthedocs.io/en/latest/protocol.html#playback-options)
 
 
 <tt>async playback.<b>next</b>(...args)</tt> --> <tt>next ...args</tt>
@@ -490,7 +490,7 @@ method reorderes or augments passed arguments, see <a href="lib/api/mutate/argum
 
 
 
-#####  Stored playlists [MPD documentation](https://www.musicpd.org/doc/html/protocol.html#stored-playlists)
+#####  Stored playlists [MPD documentation](https://mpd.readthedocs.io/en/latest/protocol.html#stored-playlists)
 
 
 <tt>async playlists.<b>get</b>(...args)</tt> --> <tt>listplaylists ...args</tt>
@@ -517,7 +517,7 @@ method reorderes or augments passed arguments, see <a href="lib/api/mutate/argum
 
 
 
-#####  The Queue [MPD documentation](https://www.musicpd.org/doc/html/protocol.html#the-queue)
+#####  The Queue [MPD documentation](https://mpd.readthedocs.io/en/latest/protocol.html#the-queue)
 
 
 <tt>async queue.<b>add</b>(...args)</tt> --> <tt>add ...args</tt>
@@ -564,7 +564,7 @@ method reorderes or augments passed arguments, see <a href="lib/api/mutate/argum
 
 
 
-#####  Reflection [MPD documentation](https://www.musicpd.org/doc/html/protocol.html#reflection)
+#####  Reflection [MPD documentation](https://mpd.readthedocs.io/en/latest/protocol.html#reflection)
 
 
 <tt>async reflection.<b>config</b>(...args)</tt> --> <tt>config ...args</tt>
@@ -579,7 +579,7 @@ method reorderes or augments passed arguments, see <a href="lib/api/mutate/argum
 
 
 
-#####  Querying MPD’s status [MPD documentation](https://www.musicpd.org/doc/html/protocol.html#querying-mpd-s-status)
+#####  Querying MPD’s status [MPD documentation](https://mpd.readthedocs.io/en/latest/protocol.html#querying-mpd-s-status)
 
 
 <tt>async status.<b>get</b>(...args)</tt> --> <tt>status ...args</tt>
@@ -592,7 +592,7 @@ method reorderes or augments passed arguments, see <a href="lib/api/mutate/argum
 
 
 
-#####  Stickers [MPD documentation](https://www.musicpd.org/doc/html/protocol.html#stickers)
+#####  Stickers [MPD documentation](https://mpd.readthedocs.io/en/latest/protocol.html#stickers)
 
 
 <details>

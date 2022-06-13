@@ -30,11 +30,11 @@ const ARGS_TS = {
   stickerSet: '(uri: string, name: string, value: string)',
   stickerDel: '(uri: string, name: string)',
   stickerFind: '(name: string, uri?: string)',
-  stickerSearch: '(name: string, value: string, comparator: string = "=", uri?: string)'
+  stickerSearch: '(name: string, value: string, comparator?: string, uri?: string)'
 }
 const METHODS_TS = {
   albumart: {
-    args: '(uri: string, offset: number = 0)',
+    args: '(uri: string, offset?: number)',
     declareType: '<T extends object>',
     retType: 'T'
   },
@@ -44,7 +44,7 @@ const METHODS_TS = {
     retType: 'T'
   },
   readpicture: {
-    args: '(uri: string, offset: number = 0)',
+    args: '(uri: string, offset?: number)',
     declareType: '<T extends object>',
     retType: 'T'
   },
@@ -109,7 +109,7 @@ const getMPDDocLink = spec => `${MPD_PROTO_URL}${spec.args[0].replace('!', '#')}
 
 const getMethodTyping = method => {
   const indent = indentStr(2)
-  let [ declareType, retType ] = getMethodReturnType('T', method.spec)
+  let [declareType, retType] = getMethodReturnType('T', method.spec)
 
   const comment = [
     '/**',
@@ -129,12 +129,14 @@ const getMethodTyping = method => {
   }
 
   const methods = [
-    argOverriden ? [
-      argOverriden
-    ] : [
-      `(args?: (string | typeof mpd.Command)[])`,
-      `(...args: (string | typeof mpd.Command)[])`
-    ]
+    argOverriden
+      ? [
+          argOverriden
+        ]
+      : [
+          '(args?: (string | typeof mpd.Command)[])',
+          '(...args: (string | typeof mpd.Command)[])'
+        ]
   ]
     .flat()
     .map(methodStr => `${indent}${declareType}${methodStr}: Promise<${retType}>;`)
@@ -147,14 +149,14 @@ const getMethodTyping = method => {
     .concat(
       methods
     )
-    .concat([ '}' ])
+    .concat(['}'])
 }
 
 const getMethodReturnType = (typ = 'T', spec) => {
   let notList = false
-  let keys = Object.keys(spec).reverse()
+  const keys = Object.keys(spec).reverse()
   let parsersFound = false
-  for (let key of keys) {
+  for (const key of keys) {
     if (key === 'reducer') {
       notList = RETURN_TYPE_IS_NOT_LIST
         .reducer[spec.reducer[spec.reducer.length - 1].path.join('.')]

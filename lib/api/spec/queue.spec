@@ -9,6 +9,7 @@
 @reducer pickFirst
 
 @method clear
+
 @method info playlistinfo
 @parser songs
 

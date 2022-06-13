@@ -1,4 +1,5 @@
 'use strict'
+/* eslint-disable no-case-declarations */
 const util = require('util')
 const fs = require('fs')
 const path = require('path')
@@ -83,7 +84,7 @@ method binds arguments which can not be changed
   }
 
   if (args) {
-    let links = args.map(arg => {
+    const links = args.map(arg => {
       const aMethod = arg.path.join('.')
       if (!MUT_ARG_METHODS[aMethod]) {
         console.error(
@@ -131,7 +132,7 @@ const genSectionHead = doc => {
   const meta = doc.reduce((acc, item) => {
     switch (item.type) {
       case 'linkmpd':
-        let link = `${MPD_PROTO_URL}${item.args[0].replace('!', '#')}`
+        const link = `${MPD_PROTO_URL}${item.args[0].replace('!', '#')}`
         acc.link = `[MPD documentation](${link})`
         break
       case 'desc':

@@ -1,14 +1,15 @@
 {
   "name": "mpd-api",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "MPD api module for Node.js",
-  "main": "lib/index.js",
+  "main": "./lib/index.js",
+  "types": "./lib/index.d.ts",
   "repository": "https://github.com/cotko/mpd-api",
   "author": "Cotko <cotkocot@gmail.com>",
   "license": "UNLICENSED",
   "scripts": {
     "lint": "standard lib/**/*.js doc/*.js",
-    "lintfix": "standard lib/**/*.js --fix",
+    "lintfix": "standard lib/**/*.js doc/*.js --fix",
     "todos": "grep -irn -B 1 -A 1 --colour todo lib/ || echo none found",
     "todo": "grep -irn --colour -E '#\\s+@method' lib/api/spec/ || echo none missing",
     "test": "node ./tests/",
@@ -32,16 +33,15 @@
     "mpdapi"
   ],
   "dependencies": {
-    "debug": "^4.2.0",
-    "file-type": "^15.0.1",
-    "mpd2": "^1.0.4"
+    "debug": "^4.3.4",
+    "file-type": "^16.5.3",
+    "mpd2": "^1.0.5"
   },
   "devDependencies": {
-    "standard": "^12.0.1",
+    "standard": "^17.0.0",
     "x-ray": "^2.3.4"
   },
   "standard": {
     "ignore": []
-  },
-  "types": "./lib/index.d.ts"
+  }
 }
