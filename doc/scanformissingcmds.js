@@ -1,7 +1,8 @@
 'use strict'
 // const util = require('util')
 const { loadDoc, MPD_PROTO_URL } = require('./load')
-const xray = require('x-ray')
+const https = require('https')
+const { parse } = require('node-html-parser')
 // const superagent = require('superagent')
 
 const cReset = '\x1b[0m'
@@ -90,16 +91,12 @@ const loadLocalCommands = async () => {
 }
 
 const getMPDCommandsWeb = async () => {
-  const xr = xray()
-
-  const spec = await xr(
-    MPD_PROTO_URL,
-    xr('#command-reference > section', [{
-      section: '@id',
-      // methods: xr('div', ['dl > dt > strong'])
-      commands: xr('dl,p', ['strong.command'])
-    }])
-  )
+  const html = await get(MPD_PROTO_URL)
+  const root = parse(html)
+  const spec = root.querySelectorAll('#command-reference > section').map(section => ({
+    section: section.getAttribute('id'),
+    commands: section.querySelectorAll('dl strong.command').map(command => command.text)
+  }))
 
   return spec
     .map(section => section.commands
@@ -112,6 +109,21 @@ const getMPDCommandsWeb = async () => {
     )
     .flat()
 }
+
+const get = url => new Promise((resolve, reject) => {
+  https.get(url, response => {
+    if (response.statusCode < 200 || response.statusCode >= 300) {
+      response.resume()
+      reject(new Error(`Request failed with status ${response.statusCode}`))
+      return
+    }
+
+    let body = ''
+    response.setEncoding('utf8')
+    response.on('data', chunk => { body += chunk })
+    response.on('end', () => resolve(body))
+  }).on('error', reject)
+})
 
 // const getMPDCommandsGit = async () => {
 //  return (
