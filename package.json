@@ -8,8 +8,6 @@
   "author": "Cotko <cotkocot@gmail.com>",
   "license": "UNLICENSE",
   "scripts": {
-    "lint": "standard lib/**/*.js doc/*.js",
-    "lintfix": "standard lib/**/*.js doc/*.js --fix",
     "todos": "grep -irn -B 1 -A 1 --colour todo lib/ || echo none found",
     "todo": "grep -irn --colour -E '#\\s+@method' lib/api/spec/ || echo none missing",
     "test": "node ./tests/",
@@ -33,15 +31,11 @@
     "mpdapi"
   ],
   "dependencies": {
-    "debug": "^4.3.4",
-    "file-type": "^16.5.3",
-    "mpd2": "^1.0.6"
+    "debug": "^4.4.3",
+    "file-type": "^22.0.2",
+    "mpd2": "^1.0.7"
   },
   "devDependencies": {
-    "standard": "^17.0.0",
-    "x-ray": "^2.3.4"
-  },
-  "standard": {
-    "ignore": []
+    "node-html-parser": "^7.0.1"
   }
 }
