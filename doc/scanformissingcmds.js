@@ -18,6 +18,12 @@ const NOT_COMMANDS = [
   'systemctl'
 ]
 
+// commands spread over several namespaces on purpose
+// (sticker: one namespace per sticker type)
+const MULTI_NS_COMMANDS = [
+  'sticker'
+]
+
 const findMissingCommands = async () => {
   const mpdCommands = await getMPDCommandsWeb()
   // const mpdCommands = await getMPDCommandsGit()
@@ -55,7 +61,11 @@ const findMissingCommands = async () => {
       const local = localCommands
         .filter(lcmd => lcmd.command === cmd)
 
-      if (local.length > 1 && uniqArray(local.map(l => l.ns)).length > 1) {
+      if (
+        local.length > 1 &&
+        uniqArray(local.map(l => l.ns)).length > 1 &&
+        !~MULTI_NS_COMMANDS.indexOf(cmd)
+      ) {
         console.log(`${cRed}%s${cReset} is defined on more than one namespace!`, cmd, local)
       } else {
         const mpd = mpdCommands

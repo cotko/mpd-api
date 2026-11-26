@@ -17,6 +17,10 @@
 @method count
 @parser list
 
+# like count, but not case sensitive (MPD >= 0.24)
+@method searchCount searchcount
+@parser list
+
 @method find
 @parser songs
 

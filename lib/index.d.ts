@@ -7,10 +7,30 @@ export declare namespace MPDApi {
   export interface MPDApi {
     mpd: typeof mpd;
     connect(config?: MPD.Config): Promise<ClientAPI>;
+    /**
+     * Filter expression for album stickers, in the form other clients use:
+     * ((AlbumArtist == "…") AND (Album == "…") AND (Date == "…"))
+     */
+    stickerAlbumFilter(album: { albumArtist: string; album: string; date?: string | number }): string;
   }
 
   export interface ClientAPI extends MPD.Client {
     api: APIS;
+  }
+
+  /**
+   * Stickers other clients agreed on (https://github.com/jcorporation/mpd-stickers),
+   * as numbers; any other sticker of the object as a string
+   */
+  export interface StickerStats {
+    rating?: number; // 0-10
+    like?: 0 | 1 | 2; // dislike, neutral, like
+    playCount?: number;
+    skipCount?: number;
+    lastPlayed?: number; // unix seconds
+    lastSkipped?: number; // unix seconds
+    elapsed?: number; // seconds into the song
+    [name: string]: string | number | undefined;
   }
 
   interface APIS {
@@ -23,36 +43,36 @@ export declare namespace MPDApi {
        * mpd command: `channels`
        */
       list: {
-        <T extends object>(args?: (string | typeof mpd.Command)[]): Promise<T[]>;
-        <T extends object>(...args: (string | typeof mpd.Command)[]): Promise<T[]>;
+        <T = string>(args?: (string | number | MPD.Command)[]): Promise<T[]>;
+        <T = string>(...args: (string | number | MPD.Command)[]): Promise<T[]>;
       }
       /**
        * mpd command: `subscribe`
        */
       subscribe: {
-        (args?: (string | typeof mpd.Command)[]): Promise<void>;
-        (...args: (string | typeof mpd.Command)[]): Promise<void>;
+        (args?: (string | number | MPD.Command)[]): Promise<void>;
+        (...args: (string | number | MPD.Command)[]): Promise<void>;
       }
       /**
        * mpd command: `unsubscribe`
        */
       unsubscribe: {
-        (args?: (string | typeof mpd.Command)[]): Promise<void>;
-        (...args: (string | typeof mpd.Command)[]): Promise<void>;
+        (args?: (string | number | MPD.Command)[]): Promise<void>;
+        (...args: (string | number | MPD.Command)[]): Promise<void>;
       }
       /**
        * mpd command: `sendmessage`
        */
       sendMessage: {
-        (args?: (string | typeof mpd.Command)[]): Promise<void>;
-        (...args: (string | typeof mpd.Command)[]): Promise<void>;
+        (args?: (string | number | MPD.Command)[]): Promise<void>;
+        (...args: (string | number | MPD.Command)[]): Promise<void>;
       }
       /**
        * mpd command: `readmessages`
        */
       readMessages: {
-        <T extends object>(args?: (string | typeof mpd.Command)[]): Promise<T[]>;
-        <T extends object>(...args: (string | typeof mpd.Command)[]): Promise<T[]>;
+        <T extends object>(args?: (string | number | MPD.Command)[]): Promise<T[]>;
+        <T extends object>(...args: (string | number | MPD.Command)[]): Promise<T[]>;
       }
     },
     /**
@@ -64,64 +84,162 @@ export declare namespace MPDApi {
        * mpd command: `close`
        */
       close: {
-        (args?: (string | typeof mpd.Command)[]): Promise<void>;
-        (...args: (string | typeof mpd.Command)[]): Promise<void>;
+        (args?: (string | number | MPD.Command)[]): Promise<void>;
+        (...args: (string | number | MPD.Command)[]): Promise<void>;
       }
       /**
        * mpd command: `kill`
        */
       kill: {
-        (args?: (string | typeof mpd.Command)[]): Promise<void>;
-        (...args: (string | typeof mpd.Command)[]): Promise<void>;
+        (args?: (string | number | MPD.Command)[]): Promise<void>;
+        (...args: (string | number | MPD.Command)[]): Promise<void>;
       }
       /**
        * mpd command: `ping`
        */
       ping: {
-        (args?: (string | typeof mpd.Command)[]): Promise<void>;
-        (...args: (string | typeof mpd.Command)[]): Promise<void>;
+        (args?: (string | number | MPD.Command)[]): Promise<void>;
+        (...args: (string | number | MPD.Command)[]): Promise<void>;
       }
       /**
        * mpd command: `tagtypes`
        */
       getTagTypes: {
-        <T extends object>(args?: (string | typeof mpd.Command)[]): Promise<T[]>;
-        <T extends object>(...args: (string | typeof mpd.Command)[]): Promise<T[]>;
+        <T = string>(args?: (string | number | MPD.Command)[]): Promise<T[]>;
+        <T = string>(...args: (string | number | MPD.Command)[]): Promise<T[]>;
       }
       /**
-       * mpd command: `tagtypes`
+       * mpd command: `tagtypes enable`
        */
       enableTagTypes: {
-        (args?: (string | typeof mpd.Command)[]): Promise<void>;
-        (...args: (string | typeof mpd.Command)[]): Promise<void>;
+        (args?: (string | number | MPD.Command)[]): Promise<void>;
+        (...args: (string | number | MPD.Command)[]): Promise<void>;
       }
       /**
-       * mpd command: `tagtypes`
+       * mpd command: `tagtypes disable`
        */
       disableTagTypes: {
-        (args?: (string | typeof mpd.Command)[]): Promise<void>;
-        (...args: (string | typeof mpd.Command)[]): Promise<void>;
+        (args?: (string | number | MPD.Command)[]): Promise<void>;
+        (...args: (string | number | MPD.Command)[]): Promise<void>;
       }
       /**
-       * mpd command: `tagtypes`
+       * mpd command: `tagtypes clear`
        */
       clearTagTypes: {
-        (args?: (string | typeof mpd.Command)[]): Promise<void>;
-        (...args: (string | typeof mpd.Command)[]): Promise<void>;
+        (args?: (string | number | MPD.Command)[]): Promise<void>;
+        (...args: (string | number | MPD.Command)[]): Promise<void>;
       }
       /**
-       * mpd command: `tagtypes`
+       * mpd command: `tagtypes all`
        */
       enableAllTagTypes: {
-        (args?: (string | typeof mpd.Command)[]): Promise<void>;
-        (...args: (string | typeof mpd.Command)[]): Promise<void>;
+        (args?: (string | number | MPD.Command)[]): Promise<void>;
+        (...args: (string | number | MPD.Command)[]): Promise<void>;
+      }
+      /**
+       * mpd command: `tagtypes available`
+       */
+      getAvailableTagTypes: {
+        <T = string>(args?: (string | number | MPD.Command)[]): Promise<T[]>;
+        <T = string>(...args: (string | number | MPD.Command)[]): Promise<T[]>;
+      }
+      /**
+       * mpd command: `tagtypes reset`
+       */
+      resetTagTypes: {
+        (args?: (string | number | MPD.Command)[]): Promise<void>;
+        (...args: (string | number | MPD.Command)[]): Promise<void>;
+      }
+      /**
+       * mpd command: `protocol`
+       */
+      getProtocolFeatures: {
+        <T = string>(args?: (string | number | MPD.Command)[]): Promise<T[]>;
+        <T = string>(...args: (string | number | MPD.Command)[]): Promise<T[]>;
+      }
+      /**
+       * mpd command: `protocol available`
+       */
+      getAvailableProtocolFeatures: {
+        <T = string>(args?: (string | number | MPD.Command)[]): Promise<T[]>;
+        <T = string>(...args: (string | number | MPD.Command)[]): Promise<T[]>;
+      }
+      /**
+       * mpd command: `protocol enable`
+       */
+      enableProtocolFeatures: {
+        (args?: (string | number | MPD.Command)[]): Promise<void>;
+        (...args: (string | number | MPD.Command)[]): Promise<void>;
+      }
+      /**
+       * mpd command: `protocol disable`
+       */
+      disableProtocolFeatures: {
+        (args?: (string | number | MPD.Command)[]): Promise<void>;
+        (...args: (string | number | MPD.Command)[]): Promise<void>;
+      }
+      /**
+       * mpd command: `protocol clear`
+       */
+      clearProtocolFeatures: {
+        (args?: (string | number | MPD.Command)[]): Promise<void>;
+        (...args: (string | number | MPD.Command)[]): Promise<void>;
+      }
+      /**
+       * mpd command: `protocol all`
+       */
+      enableAllProtocolFeatures: {
+        (args?: (string | number | MPD.Command)[]): Promise<void>;
+        (...args: (string | number | MPD.Command)[]): Promise<void>;
+      }
+      /**
+       * mpd command: `stringnormalization`
+       */
+      getStringNormalization: {
+        <T = string>(args?: (string | number | MPD.Command)[]): Promise<T[]>;
+        <T = string>(...args: (string | number | MPD.Command)[]): Promise<T[]>;
+      }
+      /**
+       * mpd command: `stringnormalization available`
+       */
+      getAvailableStringNormalization: {
+        <T = string>(args?: (string | number | MPD.Command)[]): Promise<T[]>;
+        <T = string>(...args: (string | number | MPD.Command)[]): Promise<T[]>;
+      }
+      /**
+       * mpd command: `stringnormalization enable`
+       */
+      enableStringNormalization: {
+        (args?: (string | number | MPD.Command)[]): Promise<void>;
+        (...args: (string | number | MPD.Command)[]): Promise<void>;
+      }
+      /**
+       * mpd command: `stringnormalization disable`
+       */
+      disableStringNormalization: {
+        (args?: (string | number | MPD.Command)[]): Promise<void>;
+        (...args: (string | number | MPD.Command)[]): Promise<void>;
+      }
+      /**
+       * mpd command: `stringnormalization clear`
+       */
+      clearStringNormalization: {
+        (args?: (string | number | MPD.Command)[]): Promise<void>;
+        (...args: (string | number | MPD.Command)[]): Promise<void>;
+      }
+      /**
+       * mpd command: `stringnormalization all`
+       */
+      enableAllStringNormalization: {
+        (args?: (string | number | MPD.Command)[]): Promise<void>;
+        (...args: (string | number | MPD.Command)[]): Promise<void>;
       }
       /**
        * mpd command: `binarylimit`
        */
       binarylimit: {
-        (args?: (string | typeof mpd.Command)[]): Promise<void>;
-        (...args: (string | typeof mpd.Command)[]): Promise<void>;
+        (args?: (string | number | MPD.Command)[]): Promise<void>;
+        (...args: (string | number | MPD.Command)[]): Promise<void>;
       }
     },
     /**
@@ -133,113 +251,120 @@ export declare namespace MPDApi {
        * mpd command: `listall`
        */
       listall: {
-        <T extends object>(args?: (string | typeof mpd.Command)[]): Promise<T[]>;
-        <T extends object>(...args: (string | typeof mpd.Command)[]): Promise<T[]>;
+        <T extends object>(args?: (string | number | MPD.Command)[]): Promise<T[]>;
+        <T extends object>(...args: (string | number | MPD.Command)[]): Promise<T[]>;
       }
       /**
        * mpd command: `listallinfo`
        */
       listallinfo: {
-        <T extends object>(args?: (string | typeof mpd.Command)[]): Promise<T[]>;
-        <T extends object>(...args: (string | typeof mpd.Command)[]): Promise<T[]>;
+        <T extends object>(args?: (string | number | MPD.Command)[]): Promise<T[]>;
+        <T extends object>(...args: (string | number | MPD.Command)[]): Promise<T[]>;
       }
       /**
        * mpd command: `list`
        */
       list: {
-        <T extends object>(args?: (string | typeof mpd.Command)[]): Promise<T[]>;
-        <T extends object>(...args: (string | typeof mpd.Command)[]): Promise<T[]>;
+        <T extends object>(args?: (string | number | MPD.Command)[]): Promise<T[]>;
+        <T extends object>(...args: (string | number | MPD.Command)[]): Promise<T[]>;
       }
       /**
        * mpd command: `count`
        */
       count: {
-        <T extends object>(args?: (string | typeof mpd.Command)[]): Promise<T[]>;
-        <T extends object>(...args: (string | typeof mpd.Command)[]): Promise<T[]>;
+        <T extends object>(args?: (string | number | MPD.Command)[]): Promise<T[]>;
+        <T extends object>(...args: (string | number | MPD.Command)[]): Promise<T[]>;
+      }
+      /**
+       * mpd command: `searchcount`
+       */
+      searchCount: {
+        <T extends object>(args?: (string | number | MPD.Command)[]): Promise<T[]>;
+        <T extends object>(...args: (string | number | MPD.Command)[]): Promise<T[]>;
       }
       /**
        * mpd command: `find`
        */
       find: {
-        <T extends object>(args?: (string | typeof mpd.Command)[]): Promise<T[]>;
-        <T extends object>(...args: (string | typeof mpd.Command)[]): Promise<T[]>;
+        <T extends object>(args?: (string | number | MPD.Command)[]): Promise<T[]>;
+        <T extends object>(...args: (string | number | MPD.Command)[]): Promise<T[]>;
       }
       /**
        * mpd command: `findadd`
        */
       findadd: {
-        (args?: (string | typeof mpd.Command)[]): Promise<void>;
-        (...args: (string | typeof mpd.Command)[]): Promise<void>;
+        (args?: (string | number | MPD.Command)[]): Promise<void>;
+        (...args: (string | number | MPD.Command)[]): Promise<void>;
       }
       /**
        * mpd command: `search`
        */
       search: {
-        <T extends object>(args?: (string | typeof mpd.Command)[]): Promise<T[]>;
-        <T extends object>(...args: (string | typeof mpd.Command)[]): Promise<T[]>;
+        <T extends object>(args?: (string | number | MPD.Command)[]): Promise<T[]>;
+        <T extends object>(...args: (string | number | MPD.Command)[]): Promise<T[]>;
       }
       /**
        * mpd command: `searchadd`
        */
       searchadd: {
-        (args?: (string | typeof mpd.Command)[]): Promise<void>;
-        (...args: (string | typeof mpd.Command)[]): Promise<void>;
+        (args?: (string | number | MPD.Command)[]): Promise<void>;
+        (...args: (string | number | MPD.Command)[]): Promise<void>;
       }
       /**
        * mpd command: `searchaddpl`
        */
       searchaddpl: {
-        (args?: (string | typeof mpd.Command)[]): Promise<void>;
-        (...args: (string | typeof mpd.Command)[]): Promise<void>;
+        (args?: (string | number | MPD.Command)[]): Promise<void>;
+        (...args: (string | number | MPD.Command)[]): Promise<void>;
       }
       /**
        * mpd command: `lsinfo`
        */
       lsinfo: {
-        <T extends object>(args?: (string | typeof mpd.Command)[]): Promise<T>;
-        <T extends object>(...args: (string | typeof mpd.Command)[]): Promise<T>;
+        <T extends object>(args?: (string | number | MPD.Command)[]): Promise<T>;
+        <T extends object>(...args: (string | number | MPD.Command)[]): Promise<T>;
       }
       /**
        * mpd command: `lsinfo`
        */
       songinfo: {
-        <T extends object>(args?: (string | typeof mpd.Command)[]): Promise<T>;
-        <T extends object>(...args: (string | typeof mpd.Command)[]): Promise<T>;
+        <T = any>(args?: (string | number | MPD.Command)[]): Promise<T>;
+        <T = any>(...args: (string | number | MPD.Command)[]): Promise<T>;
       }
       /**
        * mpd command: `listfiles`
        */
       listfiles: {
-        <T extends object>(args?: (string | typeof mpd.Command)[]): Promise<T[]>;
-        <T extends object>(...args: (string | typeof mpd.Command)[]): Promise<T[]>;
+        <T extends object>(args?: (string | number | MPD.Command)[]): Promise<T[]>;
+        <T extends object>(...args: (string | number | MPD.Command)[]): Promise<T[]>;
       }
       /**
        * mpd command: `readcomments`
        */
       readcomments: {
-        <T extends object>(args?: (string | typeof mpd.Command)[]): Promise<T>;
-        <T extends object>(...args: (string | typeof mpd.Command)[]): Promise<T>;
+        <T extends object>(args?: (string | number | MPD.Command)[]): Promise<T>;
+        <T extends object>(...args: (string | number | MPD.Command)[]): Promise<T>;
       }
       /**
        * mpd command: `rescan`
        */
       rescan: {
-        <T extends object>(args?: (string | typeof mpd.Command)[]): Promise<T>;
-        <T extends object>(...args: (string | typeof mpd.Command)[]): Promise<T>;
+        <T extends object>(args?: (string | number | MPD.Command)[]): Promise<T>;
+        <T extends object>(...args: (string | number | MPD.Command)[]): Promise<T>;
       }
       /**
        * mpd command: `update`
        */
       update: {
-        <T extends object>(args?: (string | typeof mpd.Command)[]): Promise<T>;
-        <T extends object>(...args: (string | typeof mpd.Command)[]): Promise<T>;
+        <T extends object>(args?: (string | number | MPD.Command)[]): Promise<T>;
+        <T extends object>(...args: (string | number | MPD.Command)[]): Promise<T>;
       }
       /**
        * mpd command: `getfingerprint`
        */
       getfingerprint: {
-        <T extends object>(args?: (string | typeof mpd.Command)[]): Promise<T>;
-        <T extends object>(...args: (string | typeof mpd.Command)[]): Promise<T>;
+        <T extends object>(args?: (string | number | MPD.Command)[]): Promise<T>;
+        <T extends object>(...args: (string | number | MPD.Command)[]): Promise<T>;
       }
       /**
        * mpd command: `albumart`
@@ -275,29 +400,29 @@ export declare namespace MPDApi {
        * mpd command: `listmounts`
        */
       list: {
-        <T extends object>(args?: (string | typeof mpd.Command)[]): Promise<T[]>;
-        <T extends object>(...args: (string | typeof mpd.Command)[]): Promise<T[]>;
+        <T extends object>(args?: (string | number | MPD.Command)[]): Promise<T[]>;
+        <T extends object>(...args: (string | number | MPD.Command)[]): Promise<T[]>;
       }
       /**
        * mpd command: `listneighbors`
        */
       listNeighbors: {
-        (args?: (string | typeof mpd.Command)[]): Promise<void>;
-        (...args: (string | typeof mpd.Command)[]): Promise<void>;
+        (args?: (string | number | MPD.Command)[]): Promise<void>;
+        (...args: (string | number | MPD.Command)[]): Promise<void>;
       }
       /**
        * mpd command: `mount`
        */
       mount: {
-        (args?: (string | typeof mpd.Command)[]): Promise<void>;
-        (...args: (string | typeof mpd.Command)[]): Promise<void>;
+        (args?: (string | number | MPD.Command)[]): Promise<void>;
+        (...args: (string | number | MPD.Command)[]): Promise<void>;
       }
       /**
        * mpd command: `unmount`
        */
       unmount: {
-        (args?: (string | typeof mpd.Command)[]): Promise<void>;
-        (...args: (string | typeof mpd.Command)[]): Promise<void>;
+        (args?: (string | number | MPD.Command)[]): Promise<void>;
+        (...args: (string | number | MPD.Command)[]): Promise<void>;
       }
     },
     /**
@@ -309,36 +434,36 @@ export declare namespace MPDApi {
        * mpd command: `outputs`
        */
       list: {
-        <T extends object>(args?: (string | typeof mpd.Command)[]): Promise<T[]>;
-        <T extends object>(...args: (string | typeof mpd.Command)[]): Promise<T[]>;
+        <T extends object>(args?: (string | number | MPD.Command)[]): Promise<T[]>;
+        <T extends object>(...args: (string | number | MPD.Command)[]): Promise<T[]>;
       }
       /**
        * mpd command: `enableoutput`
        */
       enable: {
-        (args?: (string | typeof mpd.Command)[]): Promise<void>;
-        (...args: (string | typeof mpd.Command)[]): Promise<void>;
+        (args?: (string | number | MPD.Command)[]): Promise<void>;
+        (...args: (string | number | MPD.Command)[]): Promise<void>;
       }
       /**
        * mpd command: `disableoutput`
        */
       disable: {
-        (args?: (string | typeof mpd.Command)[]): Promise<void>;
-        (...args: (string | typeof mpd.Command)[]): Promise<void>;
+        (args?: (string | number | MPD.Command)[]): Promise<void>;
+        (...args: (string | number | MPD.Command)[]): Promise<void>;
       }
       /**
        * mpd command: `toggleoutput`
        */
       toggle: {
-        (args?: (string | typeof mpd.Command)[]): Promise<void>;
-        (...args: (string | typeof mpd.Command)[]): Promise<void>;
+        (args?: (string | number | MPD.Command)[]): Promise<void>;
+        (...args: (string | number | MPD.Command)[]): Promise<void>;
       }
       /**
        * mpd command: `outputset`
        */
       set: {
-        (args?: (string | typeof mpd.Command)[]): Promise<void>;
-        (...args: (string | typeof mpd.Command)[]): Promise<void>;
+        (args?: (string | number | MPD.Command)[]): Promise<void>;
+        (...args: (string | number | MPD.Command)[]): Promise<void>;
       }
     },
     /**
@@ -350,36 +475,36 @@ export declare namespace MPDApi {
        * mpd command: `listpartitions`
        */
       list: {
-        <T extends object>(args?: (string | typeof mpd.Command)[]): Promise<T[]>;
-        <T extends object>(...args: (string | typeof mpd.Command)[]): Promise<T[]>;
+        <T = string>(args?: (string | number | MPD.Command)[]): Promise<T[]>;
+        <T = string>(...args: (string | number | MPD.Command)[]): Promise<T[]>;
       }
       /**
        * mpd command: `newpartition`
        */
       create: {
-        (args?: (string | typeof mpd.Command)[]): Promise<void>;
-        (...args: (string | typeof mpd.Command)[]): Promise<void>;
+        (args?: (string | number | MPD.Command)[]): Promise<void>;
+        (...args: (string | number | MPD.Command)[]): Promise<void>;
       }
       /**
        * mpd command: `partition`
        */
       switchTo: {
-        (args?: (string | typeof mpd.Command)[]): Promise<void>;
-        (...args: (string | typeof mpd.Command)[]): Promise<void>;
+        (args?: (string | number | MPD.Command)[]): Promise<void>;
+        (...args: (string | number | MPD.Command)[]): Promise<void>;
       }
       /**
        * mpd command: `delpartition`
        */
       delete: {
-        (args?: (string | typeof mpd.Command)[]): Promise<void>;
-        (...args: (string | typeof mpd.Command)[]): Promise<void>;
+        (args?: (string | number | MPD.Command)[]): Promise<void>;
+        (...args: (string | number | MPD.Command)[]): Promise<void>;
       }
       /**
        * mpd command: `moveoutput`
        */
       moveOutputToCurrentPartition: {
-        (args?: (string | typeof mpd.Command)[]): Promise<void>;
-        (...args: (string | typeof mpd.Command)[]): Promise<void>;
+        (args?: (string | number | MPD.Command)[]): Promise<void>;
+        (...args: (string | number | MPD.Command)[]): Promise<void>;
       }
     },
     /**
@@ -392,155 +517,155 @@ export declare namespace MPDApi {
        * mpd command: `next`
        */
       next: {
-        (args?: (string | typeof mpd.Command)[]): Promise<void>;
-        (...args: (string | typeof mpd.Command)[]): Promise<void>;
+        (args?: (string | number | MPD.Command)[]): Promise<void>;
+        (...args: (string | number | MPD.Command)[]): Promise<void>;
       }
       /**
        * mpd command: `previous`
        */
       prev: {
-        (args?: (string | typeof mpd.Command)[]): Promise<void>;
-        (...args: (string | typeof mpd.Command)[]): Promise<void>;
+        (args?: (string | number | MPD.Command)[]): Promise<void>;
+        (...args: (string | number | MPD.Command)[]): Promise<void>;
       }
       /**
-       * mpd command: `pause`
+       * mpd command: `pause 1`
        */
       pause: {
-        (args?: (string | typeof mpd.Command)[]): Promise<void>;
-        (...args: (string | typeof mpd.Command)[]): Promise<void>;
+        (args?: (string | number | MPD.Command)[]): Promise<void>;
+        (...args: (string | number | MPD.Command)[]): Promise<void>;
       }
       /**
-       * mpd command: `pause`
+       * mpd command: `pause 0`
        */
       resume: {
-        (args?: (string | typeof mpd.Command)[]): Promise<void>;
-        (...args: (string | typeof mpd.Command)[]): Promise<void>;
+        (args?: (string | number | MPD.Command)[]): Promise<void>;
+        (...args: (string | number | MPD.Command)[]): Promise<void>;
       }
       /**
        * mpd command: `pause`
        */
       toggle: {
-        (args?: (string | typeof mpd.Command)[]): Promise<void>;
-        (...args: (string | typeof mpd.Command)[]): Promise<void>;
+        (args?: (string | number | MPD.Command)[]): Promise<void>;
+        (...args: (string | number | MPD.Command)[]): Promise<void>;
       }
       /**
        * mpd command: `play`
        */
       play: {
-        (args?: (string | typeof mpd.Command)[]): Promise<void>;
-        (...args: (string | typeof mpd.Command)[]): Promise<void>;
+        (args?: (string | number | MPD.Command)[]): Promise<void>;
+        (...args: (string | number | MPD.Command)[]): Promise<void>;
       }
       /**
        * mpd command: `playid`
        */
       playid: {
-        (args?: (string | typeof mpd.Command)[]): Promise<void>;
-        (...args: (string | typeof mpd.Command)[]): Promise<void>;
+        (args?: (string | number | MPD.Command)[]): Promise<void>;
+        (...args: (string | number | MPD.Command)[]): Promise<void>;
       }
       /**
        * mpd command: `stop`
        */
       stop: {
-        (args?: (string | typeof mpd.Command)[]): Promise<void>;
-        (...args: (string | typeof mpd.Command)[]): Promise<void>;
+        (args?: (string | number | MPD.Command)[]): Promise<void>;
+        (...args: (string | number | MPD.Command)[]): Promise<void>;
       }
       /**
        * mpd command: `seekcur`
        */
       seekcur: {
-        (args?: (string | typeof mpd.Command)[]): Promise<void>;
-        (...args: (string | typeof mpd.Command)[]): Promise<void>;
+        (args?: (string | number | MPD.Command)[]): Promise<void>;
+        (...args: (string | number | MPD.Command)[]): Promise<void>;
       }
       /**
        * mpd command: `seek`
        */
       seek: {
-        (args?: (string | typeof mpd.Command)[]): Promise<void>;
-        (...args: (string | typeof mpd.Command)[]): Promise<void>;
+        (args?: (string | number | MPD.Command)[]): Promise<void>;
+        (...args: (string | number | MPD.Command)[]): Promise<void>;
       }
       /**
        * mpd command: `seekid`
        */
       seekid: {
-        (args?: (string | typeof mpd.Command)[]): Promise<void>;
-        (...args: (string | typeof mpd.Command)[]): Promise<void>;
+        (args?: (string | number | MPD.Command)[]): Promise<void>;
+        (...args: (string | number | MPD.Command)[]): Promise<void>;
       }
       /**
        * mpd command: `getvol`
        */
       getvol: {
-        <T extends object>(args?: (string | typeof mpd.Command)[]): Promise<T>;
-        <T extends object>(...args: (string | typeof mpd.Command)[]): Promise<T>;
+        <T extends object>(args?: (string | number | MPD.Command)[]): Promise<T>;
+        <T extends object>(...args: (string | number | MPD.Command)[]): Promise<T>;
       }
       /**
        * mpd command: `consume`
        */
       consume: {
-        (args?: (string | typeof mpd.Command)[]): Promise<void>;
-        (...args: (string | typeof mpd.Command)[]): Promise<void>;
+        (args?: (string | number | MPD.Command)[]): Promise<void>;
+        (...args: (string | number | MPD.Command)[]): Promise<void>;
       }
       /**
        * mpd command: `crossfade`
        */
       crossfade: {
-        (args?: (string | typeof mpd.Command)[]): Promise<void>;
-        (...args: (string | typeof mpd.Command)[]): Promise<void>;
+        (args?: (string | number | MPD.Command)[]): Promise<void>;
+        (...args: (string | number | MPD.Command)[]): Promise<void>;
       }
       /**
        * mpd command: `mixrampdb`
        */
       mixrampdb: {
-        (args?: (string | typeof mpd.Command)[]): Promise<void>;
-        (...args: (string | typeof mpd.Command)[]): Promise<void>;
+        (args?: (string | number | MPD.Command)[]): Promise<void>;
+        (...args: (string | number | MPD.Command)[]): Promise<void>;
       }
       /**
        * mpd command: `mixrampdelay`
        */
       mixrampdelay: {
-        (args?: (string | typeof mpd.Command)[]): Promise<void>;
-        (...args: (string | typeof mpd.Command)[]): Promise<void>;
+        (args?: (string | number | MPD.Command)[]): Promise<void>;
+        (...args: (string | number | MPD.Command)[]): Promise<void>;
       }
       /**
        * mpd command: `random`
        */
       random: {
-        (args?: (string | typeof mpd.Command)[]): Promise<void>;
-        (...args: (string | typeof mpd.Command)[]): Promise<void>;
+        (args?: (string | number | MPD.Command)[]): Promise<void>;
+        (...args: (string | number | MPD.Command)[]): Promise<void>;
       }
       /**
        * mpd command: `repeat`
        */
       repeat: {
-        (args?: (string | typeof mpd.Command)[]): Promise<void>;
-        (...args: (string | typeof mpd.Command)[]): Promise<void>;
+        (args?: (string | number | MPD.Command)[]): Promise<void>;
+        (...args: (string | number | MPD.Command)[]): Promise<void>;
       }
       /**
        * mpd command: `single`
        */
       single: {
-        (args?: (string | typeof mpd.Command)[]): Promise<void>;
-        (...args: (string | typeof mpd.Command)[]): Promise<void>;
+        (args?: (string | number | MPD.Command)[]): Promise<void>;
+        (...args: (string | number | MPD.Command)[]): Promise<void>;
       }
       /**
        * mpd command: `setvol`
        */
       setvol: {
-        (args?: (string | typeof mpd.Command)[]): Promise<void>;
-        (...args: (string | typeof mpd.Command)[]): Promise<void>;
+        (args?: (string | number | MPD.Command)[]): Promise<void>;
+        (...args: (string | number | MPD.Command)[]): Promise<void>;
       }
       /**
        * mpd command: `replay_gain_mode`
        */
       setReplayGain: {
-        (args?: (string | typeof mpd.Command)[]): Promise<void>;
-        (...args: (string | typeof mpd.Command)[]): Promise<void>;
+        (args?: (string | number | MPD.Command)[]): Promise<void>;
+        (...args: (string | number | MPD.Command)[]): Promise<void>;
       }
       /**
        * mpd command: `replay_gain_status`
        */
       getReplayGain: {
-        <T extends object>(args?: (string | typeof mpd.Command)[]): Promise<T>;
-        <T extends object>(...args: (string | typeof mpd.Command)[]): Promise<T>;
+        <T extends object>(args?: (string | number | MPD.Command)[]): Promise<T>;
+        <T extends object>(...args: (string | number | MPD.Command)[]): Promise<T>;
       }
     },
     /**
@@ -552,78 +677,92 @@ export declare namespace MPDApi {
        * mpd command: `listplaylists`
        */
       get: {
-        <T extends object>(args?: (string | typeof mpd.Command)[]): Promise<T[]>;
-        <T extends object>(...args: (string | typeof mpd.Command)[]): Promise<T[]>;
+        <T extends object>(args?: (string | number | MPD.Command)[]): Promise<T[]>;
+        <T extends object>(...args: (string | number | MPD.Command)[]): Promise<T[]>;
       }
       /**
        * mpd command: `listplaylist`
        */
       list: {
-        <T extends object>(args?: (string | typeof mpd.Command)[]): Promise<T[]>;
-        <T extends object>(...args: (string | typeof mpd.Command)[]): Promise<T[]>;
+        <T extends object>(args?: (string | number | MPD.Command)[]): Promise<T[]>;
+        <T extends object>(...args: (string | number | MPD.Command)[]): Promise<T[]>;
       }
       /**
        * mpd command: `listplaylistinfo`
        */
       listinfo: {
-        <T extends object>(args?: (string | typeof mpd.Command)[]): Promise<T[]>;
-        <T extends object>(...args: (string | typeof mpd.Command)[]): Promise<T[]>;
+        <T extends object>(args?: (string | number | MPD.Command)[]): Promise<T[]>;
+        <T extends object>(...args: (string | number | MPD.Command)[]): Promise<T[]>;
+      }
+      /**
+       * mpd command: `searchplaylist`
+       */
+      search: {
+        <T extends object>(args?: (string | number | MPD.Command)[]): Promise<T[]>;
+        <T extends object>(...args: (string | number | MPD.Command)[]): Promise<T[]>;
+      }
+      /**
+       * mpd command: `playlistlength`
+       */
+      length: {
+        <T extends object>(args?: (string | number | MPD.Command)[]): Promise<T>;
+        <T extends object>(...args: (string | number | MPD.Command)[]): Promise<T>;
       }
       /**
        * mpd command: `load`
        */
       load: {
-        (args?: (string | typeof mpd.Command)[]): Promise<void>;
-        (...args: (string | typeof mpd.Command)[]): Promise<void>;
+        (args?: (string | number | MPD.Command)[]): Promise<void>;
+        (...args: (string | number | MPD.Command)[]): Promise<void>;
       }
       /**
        * mpd command: `playlistadd`
        */
       add: {
-        (args?: (string | typeof mpd.Command)[]): Promise<void>;
-        (...args: (string | typeof mpd.Command)[]): Promise<void>;
+        (args?: (string | number | MPD.Command)[]): Promise<void>;
+        (...args: (string | number | MPD.Command)[]): Promise<void>;
       }
       /**
        * mpd command: `playlistclear`
        */
       clear: {
-        (args?: (string | typeof mpd.Command)[]): Promise<void>;
-        (...args: (string | typeof mpd.Command)[]): Promise<void>;
+        (args?: (string | number | MPD.Command)[]): Promise<void>;
+        (...args: (string | number | MPD.Command)[]): Promise<void>;
       }
       /**
        * mpd command: `playlistdelete`
        */
       deleteAt: {
-        (args?: (string | typeof mpd.Command)[]): Promise<void>;
-        (...args: (string | typeof mpd.Command)[]): Promise<void>;
+        (args?: (string | number | MPD.Command)[]): Promise<void>;
+        (...args: (string | number | MPD.Command)[]): Promise<void>;
       }
       /**
        * mpd command: `playlistmove`
        */
       move: {
-        (args?: (string | typeof mpd.Command)[]): Promise<void>;
-        (...args: (string | typeof mpd.Command)[]): Promise<void>;
+        (args?: (string | number | MPD.Command)[]): Promise<void>;
+        (...args: (string | number | MPD.Command)[]): Promise<void>;
       }
       /**
        * mpd command: `rename`
        */
       rename: {
-        (args?: (string | typeof mpd.Command)[]): Promise<void>;
-        (...args: (string | typeof mpd.Command)[]): Promise<void>;
+        (args?: (string | number | MPD.Command)[]): Promise<void>;
+        (...args: (string | number | MPD.Command)[]): Promise<void>;
       }
       /**
        * mpd command: `rm`
        */
       remove: {
-        (args?: (string | typeof mpd.Command)[]): Promise<void>;
-        (...args: (string | typeof mpd.Command)[]): Promise<void>;
+        (args?: (string | number | MPD.Command)[]): Promise<void>;
+        (...args: (string | number | MPD.Command)[]): Promise<void>;
       }
       /**
        * mpd command: `save`
        */
       save: {
-        (args?: (string | typeof mpd.Command)[]): Promise<void>;
-        (...args: (string | typeof mpd.Command)[]): Promise<void>;
+        (args?: (string | number | MPD.Command)[]): Promise<void>;
+        (...args: (string | number | MPD.Command)[]): Promise<void>;
       }
     },
     /**
@@ -635,148 +774,148 @@ export declare namespace MPDApi {
        * mpd command: `add`
        */
       add: {
-        (args?: (string | typeof mpd.Command)[]): Promise<void>;
-        (...args: (string | typeof mpd.Command)[]): Promise<void>;
+        (args?: (string | number | MPD.Command)[]): Promise<void>;
+        (...args: (string | number | MPD.Command)[]): Promise<void>;
       }
       /**
        * mpd command: `addid`
        */
       addid: {
-        <T extends object>(args?: (string | typeof mpd.Command)[]): Promise<T>;
-        <T extends object>(...args: (string | typeof mpd.Command)[]): Promise<T>;
+        <T = any>(args?: (string | number | MPD.Command)[]): Promise<T>;
+        <T = any>(...args: (string | number | MPD.Command)[]): Promise<T>;
       }
       /**
        * mpd command: `clear`
        */
       clear: {
-        (args?: (string | typeof mpd.Command)[]): Promise<void>;
-        (...args: (string | typeof mpd.Command)[]): Promise<void>;
+        (args?: (string | number | MPD.Command)[]): Promise<void>;
+        (...args: (string | number | MPD.Command)[]): Promise<void>;
       }
       /**
        * mpd command: `playlistinfo`
        */
       info: {
-        <T extends object>(args?: (string | typeof mpd.Command)[]): Promise<T[]>;
-        <T extends object>(...args: (string | typeof mpd.Command)[]): Promise<T[]>;
+        <T extends object>(args?: (string | number | MPD.Command)[]): Promise<T[]>;
+        <T extends object>(...args: (string | number | MPD.Command)[]): Promise<T[]>;
       }
       /**
        * mpd command: `playlistid`
        */
       id: {
-        <T extends object>(args?: (string | typeof mpd.Command)[]): Promise<T[]>;
-        <T extends object>(...args: (string | typeof mpd.Command)[]): Promise<T[]>;
+        <T extends object>(args?: (string | number | MPD.Command)[]): Promise<T[]>;
+        <T extends object>(...args: (string | number | MPD.Command)[]): Promise<T[]>;
       }
       /**
        * mpd command: `delete`
        */
       delete: {
-        (args?: (string | typeof mpd.Command)[]): Promise<void>;
-        (...args: (string | typeof mpd.Command)[]): Promise<void>;
+        (args?: (string | number | MPD.Command)[]): Promise<void>;
+        (...args: (string | number | MPD.Command)[]): Promise<void>;
       }
       /**
        * mpd command: `deleteid`
        */
       deleteid: {
-        (args?: (string | typeof mpd.Command)[]): Promise<void>;
-        (...args: (string | typeof mpd.Command)[]): Promise<void>;
+        (args?: (string | number | MPD.Command)[]): Promise<void>;
+        (...args: (string | number | MPD.Command)[]): Promise<void>;
       }
       /**
        * mpd command: `move`
        */
       move: {
-        (args?: (string | typeof mpd.Command)[]): Promise<void>;
-        (...args: (string | typeof mpd.Command)[]): Promise<void>;
+        (args?: (string | number | MPD.Command)[]): Promise<void>;
+        (...args: (string | number | MPD.Command)[]): Promise<void>;
       }
       /**
        * mpd command: `moveid`
        */
       moveid: {
-        (args?: (string | typeof mpd.Command)[]): Promise<void>;
-        (...args: (string | typeof mpd.Command)[]): Promise<void>;
+        (args?: (string | number | MPD.Command)[]): Promise<void>;
+        (...args: (string | number | MPD.Command)[]): Promise<void>;
       }
       /**
        * mpd command: `playlistfind`
        */
       find: {
-        <T extends object>(args?: (string | typeof mpd.Command)[]): Promise<T[]>;
-        <T extends object>(...args: (string | typeof mpd.Command)[]): Promise<T[]>;
+        <T extends object>(args?: (string | number | MPD.Command)[]): Promise<T[]>;
+        <T extends object>(...args: (string | number | MPD.Command)[]): Promise<T[]>;
       }
       /**
        * mpd command: `playlistsearch`
        */
       search: {
-        <T extends object>(args?: (string | typeof mpd.Command)[]): Promise<T[]>;
-        <T extends object>(...args: (string | typeof mpd.Command)[]): Promise<T[]>;
+        <T extends object>(args?: (string | number | MPD.Command)[]): Promise<T[]>;
+        <T extends object>(...args: (string | number | MPD.Command)[]): Promise<T[]>;
       }
       /**
        * mpd command: `prio`
        */
       prio: {
-        (args?: (string | typeof mpd.Command)[]): Promise<void>;
-        (...args: (string | typeof mpd.Command)[]): Promise<void>;
+        (args?: (string | number | MPD.Command)[]): Promise<void>;
+        (...args: (string | number | MPD.Command)[]): Promise<void>;
       }
       /**
        * mpd command: `prioid`
        */
       prioid: {
-        (args?: (string | typeof mpd.Command)[]): Promise<void>;
-        (...args: (string | typeof mpd.Command)[]): Promise<void>;
+        (args?: (string | number | MPD.Command)[]): Promise<void>;
+        (...args: (string | number | MPD.Command)[]): Promise<void>;
       }
       /**
        * mpd command: `shuffle`
        */
       shuffle: {
-        (args?: (string | typeof mpd.Command)[]): Promise<void>;
-        (...args: (string | typeof mpd.Command)[]): Promise<void>;
+        (args?: (string | number | MPD.Command)[]): Promise<void>;
+        (...args: (string | number | MPD.Command)[]): Promise<void>;
       }
       /**
        * mpd command: `swap`
        */
       swap: {
-        (args?: (string | typeof mpd.Command)[]): Promise<void>;
-        (...args: (string | typeof mpd.Command)[]): Promise<void>;
+        (args?: (string | number | MPD.Command)[]): Promise<void>;
+        (...args: (string | number | MPD.Command)[]): Promise<void>;
       }
       /**
        * mpd command: `swapid`
        */
       swapid: {
-        (args?: (string | typeof mpd.Command)[]): Promise<void>;
-        (...args: (string | typeof mpd.Command)[]): Promise<void>;
+        (args?: (string | number | MPD.Command)[]): Promise<void>;
+        (...args: (string | number | MPD.Command)[]): Promise<void>;
       }
       /**
        * mpd command: `addtagid`
        */
       addtagid: {
-        (args?: (string | typeof mpd.Command)[]): Promise<void>;
-        (...args: (string | typeof mpd.Command)[]): Promise<void>;
+        (args?: (string | number | MPD.Command)[]): Promise<void>;
+        (...args: (string | number | MPD.Command)[]): Promise<void>;
       }
       /**
        * mpd command: `cleartagid`
        */
       cleartagid: {
-        (args?: (string | typeof mpd.Command)[]): Promise<void>;
-        (...args: (string | typeof mpd.Command)[]): Promise<void>;
+        (args?: (string | number | MPD.Command)[]): Promise<void>;
+        (...args: (string | number | MPD.Command)[]): Promise<void>;
       }
       /**
        * mpd command: `plchanges`
        */
       getChanges: {
-        <T extends object>(args?: (string | typeof mpd.Command)[]): Promise<T[]>;
-        <T extends object>(...args: (string | typeof mpd.Command)[]): Promise<T[]>;
+        <T extends object>(args?: (string | number | MPD.Command)[]): Promise<T[]>;
+        <T extends object>(...args: (string | number | MPD.Command)[]): Promise<T[]>;
       }
       /**
        * mpd command: `plchangesposid`
        */
       getChangesPosId: {
-        <T extends object>(args?: (string | typeof mpd.Command)[]): Promise<T[]>;
-        <T extends object>(...args: (string | typeof mpd.Command)[]): Promise<T[]>;
+        <T extends object>(args?: (string | number | MPD.Command)[]): Promise<T[]>;
+        <T extends object>(...args: (string | number | MPD.Command)[]): Promise<T[]>;
       }
       /**
        * mpd command: `rangeid`
        */
       rangeid: {
-        (args?: (string | typeof mpd.Command)[]): Promise<void>;
-        (...args: (string | typeof mpd.Command)[]): Promise<void>;
+        (args?: (string | number | MPD.Command)[]): Promise<void>;
+        (...args: (string | number | MPD.Command)[]): Promise<void>;
       }
     },
     /**
@@ -788,36 +927,36 @@ export declare namespace MPDApi {
        * mpd command: `config`
        */
       config: {
-        <T extends object>(args?: (string | typeof mpd.Command)[]): Promise<T>;
-        <T extends object>(...args: (string | typeof mpd.Command)[]): Promise<T>;
+        <T extends object>(args?: (string | number | MPD.Command)[]): Promise<T>;
+        <T extends object>(...args: (string | number | MPD.Command)[]): Promise<T>;
       }
       /**
        * mpd command: `commands`
        */
       commands: {
-        <T extends object>(args?: (string | typeof mpd.Command)[]): Promise<T[]>;
-        <T extends object>(...args: (string | typeof mpd.Command)[]): Promise<T[]>;
+        <T = string>(args?: (string | number | MPD.Command)[]): Promise<T[]>;
+        <T = string>(...args: (string | number | MPD.Command)[]): Promise<T[]>;
       }
       /**
        * mpd command: `notcommands`
        */
       notcommands: {
-        <T extends object>(args?: (string | typeof mpd.Command)[]): Promise<T[]>;
-        <T extends object>(...args: (string | typeof mpd.Command)[]): Promise<T[]>;
+        <T = string>(args?: (string | number | MPD.Command)[]): Promise<T[]>;
+        <T = string>(...args: (string | number | MPD.Command)[]): Promise<T[]>;
       }
       /**
        * mpd command: `urlhandlers`
        */
       urlhandlers: {
-        <T extends object>(args?: (string | typeof mpd.Command)[]): Promise<T[]>;
-        <T extends object>(...args: (string | typeof mpd.Command)[]): Promise<T[]>;
+        <T = string>(args?: (string | number | MPD.Command)[]): Promise<T[]>;
+        <T = string>(...args: (string | number | MPD.Command)[]): Promise<T[]>;
       }
       /**
        * mpd command: `decoders`
        */
       decoders: {
-        <T extends object>(args?: (string | typeof mpd.Command)[]): Promise<T[]>;
-        <T extends object>(...args: (string | typeof mpd.Command)[]): Promise<T[]>;
+        <T extends object>(args?: (string | number | MPD.Command)[]): Promise<T[]>;
+        <T extends object>(...args: (string | number | MPD.Command)[]): Promise<T[]>;
       }
     },
     /**
@@ -829,85 +968,474 @@ export declare namespace MPDApi {
        * mpd command: `status`
        */
       get: {
-        <T extends object>(args?: (string | typeof mpd.Command)[]): Promise<T>;
-        <T extends object>(...args: (string | typeof mpd.Command)[]): Promise<T>;
+        <T extends object>(args?: (string | number | MPD.Command)[]): Promise<T>;
+        <T extends object>(...args: (string | number | MPD.Command)[]): Promise<T>;
       }
       /**
        * mpd command: `clearerror`
        */
       clearerror: {
-        (args?: (string | typeof mpd.Command)[]): Promise<void>;
-        (...args: (string | typeof mpd.Command)[]): Promise<void>;
+        (args?: (string | number | MPD.Command)[]): Promise<void>;
+        (...args: (string | number | MPD.Command)[]): Promise<void>;
       }
       /**
        * mpd command: `currentsong`
        */
       currentsong: {
-        <T extends object>(args?: (string | typeof mpd.Command)[]): Promise<T>;
-        <T extends object>(...args: (string | typeof mpd.Command)[]): Promise<T>;
+        <T extends object>(args?: (string | number | MPD.Command)[]): Promise<T>;
+        <T extends object>(...args: (string | number | MPD.Command)[]): Promise<T>;
       }
       /**
        * mpd command: `stats`
        */
       stats: {
-        <T extends object>(args?: (string | typeof mpd.Command)[]): Promise<T>;
-        <T extends object>(...args: (string | typeof mpd.Command)[]): Promise<T>;
+        <T extends object>(args?: (string | number | MPD.Command)[]): Promise<T>;
+        <T extends object>(...args: (string | number | MPD.Command)[]): Promise<T>;
       }
     },
     /**
      * [MPD doc](https://mpd.readthedocs.io/en/latest/protocol.html#stickers)
-     * Stickers
+     * Stickers on songs (and the sticker database)
      */
     sticker: {
       /**
-       * mpd command: `sticker`
+       * mpd command: `sticker list song`
        */
       list: {
-        <T extends object>(args?: (string | typeof mpd.Command)[]): Promise<T>;
-        <T extends object>(...args: (string | typeof mpd.Command)[]): Promise<T>;
+        <T extends object>(args?: (string | number | MPD.Command)[]): Promise<T>;
+        <T extends object>(...args: (string | number | MPD.Command)[]): Promise<T>;
       }
       /**
-       * mpd command: `sticker`
+       * mpd command: `sticker set song`
        */
       set: {
-        (uri: string, name: string, value: string): Promise<void>;
+        (uri: string, name: string, value: string | number): Promise<void>;
       }
       /**
-       * mpd command: `sticker`
+       * mpd command: `sticker get song`
        */
       get: {
-        <T extends object>(args?: (string | typeof mpd.Command)[]): Promise<T>;
-        <T extends object>(...args: (string | typeof mpd.Command)[]): Promise<T>;
+        <T = any>(args?: (string | number | MPD.Command)[]): Promise<T>;
+        <T = any>(...args: (string | number | MPD.Command)[]): Promise<T>;
       }
       /**
-       * mpd command: `sticker`
+       * mpd command: `sticker delete song`
        */
       delete: {
         (uri: string, name: string): Promise<void>;
       }
       /**
-       * mpd command: `sticker`
+       * mpd command: `sticker delete song`
        */
       deleteAll: {
-        (args?: (string | typeof mpd.Command)[]): Promise<void>;
-        (...args: (string | typeof mpd.Command)[]): Promise<void>;
+        (args?: (string | number | MPD.Command)[]): Promise<void>;
+        (...args: (string | number | MPD.Command)[]): Promise<void>;
       }
       /**
-       * mpd command: `sticker`
+       * mpd command: `sticker inc song`
+       */
+      inc: {
+        (uri: string, name: string, value?: number): Promise<void>;
+      }
+      /**
+       * mpd command: `sticker dec song`
+       */
+      dec: {
+        (uri: string, name: string, value?: number): Promise<void>;
+      }
+      /**
+       * mpd command: `sticker find song`
        */
       find: {
         <T extends object>(name: string, uri?: string): Promise<T[]>;
       }
       /**
-       * mpd command: `sticker`
+       * mpd command: `sticker find song`
        */
       search: {
         <T extends object>(name: string, value: string, comparator?: string, uri?: string): Promise<T[]>;
+      }
+      /**
+       * mpd command: `sticker song`
+       */
+      getRating: {
+        (uri: string): Promise<number | undefined>;
+      }
+      /**
+       * mpd command: `sticker song`
+       */
+      setRating: {
+        (uri: string, rating: number): Promise<void>;
+      }
+      /**
+       * mpd command: `sticker song`
+       */
+      getLike: {
+        (uri: string): Promise<0 | 1 | 2 | undefined>;
+      }
+      /**
+       * mpd command: `sticker song`
+       */
+      setLike: {
+        (uri: string, like: 0 | 1 | 2): Promise<void>;
+      }
+      /**
+       * mpd command: `sticker song`
+       */
+      setFavourite: {
+        (uri: string, favourite?: boolean): Promise<void>;
+      }
+      /**
+       * mpd command: `sticker song`
+       */
+      getStats: {
+        (uri: string): Promise<StickerStats>;
+      }
+      /**
+       * mpd command: `sticker song`
+       */
+      incPlayCount: {
+        (uri: string, at?: number): Promise<void>;
+      }
+      /**
+       * mpd command: `sticker song`
+       */
+      incSkipCount: {
+        (uri: string, at?: number): Promise<void>;
+      }
+      /**
+       * mpd command: `sticker song`
+       */
+      setElapsed: {
+        (uri: string, seconds: number): Promise<void>;
+      }
+      /**
+       * mpd command: `stickertypes`
+       */
+      types: {
+        <T = string>(args?: (string | number | MPD.Command)[]): Promise<T[]>;
+        <T = string>(...args: (string | number | MPD.Command)[]): Promise<T[]>;
+      }
+      /**
+       * mpd command: `stickernames`
+       */
+      names: {
+        <T = string>(args?: (string | number | MPD.Command)[]): Promise<T[]>;
+        <T = string>(...args: (string | number | MPD.Command)[]): Promise<T[]>;
+      }
+      /**
+       * mpd command: `stickernamestypes`
+       */
+      namesTypes: {
+        <T extends object>(args?: (string | number | MPD.Command)[]): Promise<T[]>;
+        <T extends object>(...args: (string | number | MPD.Command)[]): Promise<T[]>;
+      }
+    },
+    /**
+     * [MPD doc](https://mpd.readthedocs.io/en/latest/protocol.html#stickers)
+     * Stickers on filter expressions
+     */
+    stickerFilter: {
+      /**
+       * mpd command: `sticker list filter`
+       */
+      list: {
+        <T extends object>(args?: (string | number | MPD.Command)[]): Promise<T>;
+        <T extends object>(...args: (string | number | MPD.Command)[]): Promise<T>;
+      }
+      /**
+       * mpd command: `sticker set filter`
+       */
+      set: {
+        (uri: string, name: string, value: string | number): Promise<void>;
+      }
+      /**
+       * mpd command: `sticker get filter`
+       */
+      get: {
+        <T = any>(args?: (string | number | MPD.Command)[]): Promise<T>;
+        <T = any>(...args: (string | number | MPD.Command)[]): Promise<T>;
+      }
+      /**
+       * mpd command: `sticker delete filter`
+       */
+      delete: {
+        (uri: string, name: string): Promise<void>;
+      }
+      /**
+       * mpd command: `sticker delete filter`
+       */
+      deleteAll: {
+        (args?: (string | number | MPD.Command)[]): Promise<void>;
+        (...args: (string | number | MPD.Command)[]): Promise<void>;
+      }
+      /**
+       * mpd command: `sticker inc filter`
+       */
+      inc: {
+        (uri: string, name: string, value?: number): Promise<void>;
+      }
+      /**
+       * mpd command: `sticker dec filter`
+       */
+      dec: {
+        (uri: string, name: string, value?: number): Promise<void>;
+      }
+      /**
+       * mpd command: `sticker find filter`
+       */
+      find: {
+        <T extends object>(name: string, uri?: string): Promise<T[]>;
+      }
+      /**
+       * mpd command: `sticker find filter`
+       */
+      search: {
+        <T extends object>(name: string, value: string, comparator?: string, uri?: string): Promise<T[]>;
+      }
+      /**
+       * mpd command: `sticker filter`
+       */
+      getRating: {
+        (uri: string): Promise<number | undefined>;
+      }
+      /**
+       * mpd command: `sticker filter`
+       */
+      setRating: {
+        (uri: string, rating: number): Promise<void>;
+      }
+      /**
+       * mpd command: `sticker filter`
+       */
+      getLike: {
+        (uri: string): Promise<0 | 1 | 2 | undefined>;
+      }
+      /**
+       * mpd command: `sticker filter`
+       */
+      setLike: {
+        (uri: string, like: 0 | 1 | 2): Promise<void>;
+      }
+      /**
+       * mpd command: `sticker filter`
+       */
+      setFavourite: {
+        (uri: string, favourite?: boolean): Promise<void>;
+      }
+      /**
+       * mpd command: `sticker filter`
+       */
+      getStats: {
+        (uri: string): Promise<StickerStats>;
+      }
+    },
+    /**
+     * [MPD doc](https://mpd.readthedocs.io/en/latest/protocol.html#stickers)
+     * Stickers on stored playlists
+     */
+    stickerPlaylist: {
+      /**
+       * mpd command: `sticker list playlist`
+       */
+      list: {
+        <T extends object>(args?: (string | number | MPD.Command)[]): Promise<T>;
+        <T extends object>(...args: (string | number | MPD.Command)[]): Promise<T>;
+      }
+      /**
+       * mpd command: `sticker set playlist`
+       */
+      set: {
+        (uri: string, name: string, value: string | number): Promise<void>;
+      }
+      /**
+       * mpd command: `sticker get playlist`
+       */
+      get: {
+        <T = any>(args?: (string | number | MPD.Command)[]): Promise<T>;
+        <T = any>(...args: (string | number | MPD.Command)[]): Promise<T>;
+      }
+      /**
+       * mpd command: `sticker delete playlist`
+       */
+      delete: {
+        (uri: string, name: string): Promise<void>;
+      }
+      /**
+       * mpd command: `sticker delete playlist`
+       */
+      deleteAll: {
+        (args?: (string | number | MPD.Command)[]): Promise<void>;
+        (...args: (string | number | MPD.Command)[]): Promise<void>;
+      }
+      /**
+       * mpd command: `sticker inc playlist`
+       */
+      inc: {
+        (uri: string, name: string, value?: number): Promise<void>;
+      }
+      /**
+       * mpd command: `sticker dec playlist`
+       */
+      dec: {
+        (uri: string, name: string, value?: number): Promise<void>;
+      }
+      /**
+       * mpd command: `sticker find playlist`
+       */
+      find: {
+        <T extends object>(name: string, uri?: string): Promise<T[]>;
+      }
+      /**
+       * mpd command: `sticker find playlist`
+       */
+      search: {
+        <T extends object>(name: string, value: string, comparator?: string, uri?: string): Promise<T[]>;
+      }
+      /**
+       * mpd command: `sticker playlist`
+       */
+      getRating: {
+        (uri: string): Promise<number | undefined>;
+      }
+      /**
+       * mpd command: `sticker playlist`
+       */
+      setRating: {
+        (uri: string, rating: number): Promise<void>;
+      }
+      /**
+       * mpd command: `sticker playlist`
+       */
+      getLike: {
+        (uri: string): Promise<0 | 1 | 2 | undefined>;
+      }
+      /**
+       * mpd command: `sticker playlist`
+       */
+      setLike: {
+        (uri: string, like: 0 | 1 | 2): Promise<void>;
+      }
+      /**
+       * mpd command: `sticker playlist`
+       */
+      setFavourite: {
+        (uri: string, favourite?: boolean): Promise<void>;
+      }
+      /**
+       * mpd command: `sticker playlist`
+       */
+      getStats: {
+        (uri: string): Promise<StickerStats>;
+      }
+    },
+    /**
+     * [MPD doc](https://mpd.readthedocs.io/en/latest/protocol.html#stickers)
+     * Stickers on tag values
+     */
+    stickerTag: {
+      /**
+       * mpd command: `sticker list`
+       */
+      list: {
+        <T extends object>(args?: (string | number | MPD.Command)[]): Promise<T>;
+        <T extends object>(...args: (string | number | MPD.Command)[]): Promise<T>;
+      }
+      /**
+       * mpd command: `sticker set`
+       */
+      set: {
+        (tag: string, uri: string, name: string, value: string | number): Promise<void>;
+      }
+      /**
+       * mpd command: `sticker get`
+       */
+      get: {
+        <T = any>(args?: (string | number | MPD.Command)[]): Promise<T>;
+        <T = any>(...args: (string | number | MPD.Command)[]): Promise<T>;
+      }
+      /**
+       * mpd command: `sticker delete`
+       */
+      delete: {
+        (tag: string, uri: string, name: string): Promise<void>;
+      }
+      /**
+       * mpd command: `sticker delete`
+       */
+      deleteAll: {
+        (args?: (string | number | MPD.Command)[]): Promise<void>;
+        (...args: (string | number | MPD.Command)[]): Promise<void>;
+      }
+      /**
+       * mpd command: `sticker inc`
+       */
+      inc: {
+        (tag: string, uri: string, name: string, value?: number): Promise<void>;
+      }
+      /**
+       * mpd command: `sticker dec`
+       */
+      dec: {
+        (tag: string, uri: string, name: string, value?: number): Promise<void>;
+      }
+      /**
+       * mpd command: `sticker find`
+       */
+      find: {
+        <T extends object>(tag: string, name: string, uri?: string): Promise<T[]>;
+      }
+      /**
+       * mpd command: `sticker find`
+       */
+      search: {
+        <T extends object>(tag: string, name: string, value: string, comparator?: string, uri?: string): Promise<T[]>;
+      }
+      /**
+       * mpd command: `sticker`
+       */
+      getRating: {
+        (tag: string, uri: string): Promise<number | undefined>;
+      }
+      /**
+       * mpd command: `sticker`
+       */
+      setRating: {
+        (tag: string, uri: string, rating: number): Promise<void>;
+      }
+      /**
+       * mpd command: `sticker`
+       */
+      getLike: {
+        (tag: string, uri: string): Promise<0 | 1 | 2 | undefined>;
+      }
+      /**
+       * mpd command: `sticker`
+       */
+      setLike: {
+        (tag: string, uri: string, like: 0 | 1 | 2): Promise<void>;
+      }
+      /**
+       * mpd command: `sticker`
+       */
+      setFavourite: {
+        (tag: string, uri: string, favourite?: boolean): Promise<void>;
+      }
+      /**
+       * mpd command: `sticker`
+       */
+      getStats: {
+        (tag: string, uri: string): Promise<StickerStats>;
       }
     },
   }
 
 }
 
-export default mpdApi;
+// lib/index.js sets these on module.exports too: named imports, require()
+// and Node's ESM default import (= module.exports) all see them
+export { mpd };
+export declare const connect: MPDApi.MPDApi['connect'];
+export declare const stickerAlbumFilter: MPDApi.MPDApi['stickerAlbumFilter'];
 
+export default mpdApi;

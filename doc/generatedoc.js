@@ -4,6 +4,7 @@ const util = require('util')
 const fs = require('fs')
 const path = require('path')
 const { loadDoc, MPD_PROTO_URL } = require('./load')
+const { argsOf } = require('./signatures')
 
 // eslint-disable-next-line no-unused-vars
 const log = (...args) => console.log(
@@ -41,7 +42,7 @@ const genMethod = ({ ns, method, spec }) => {
   // log('genMethod', method, spec)
   const { useMethod, mpdcmd, boundArgs, error, arguments: args } = spec
 
-  const oMethod = `async ${ns}.<b>${method}</b>(...args)`
+  const oMethod = `async ${ns}.<b>${method}</b>${argsOf(spec) || '(...args)'}`
 
   const hasBoundArgs = boundArgs && boundArgs.length
   const notes = []

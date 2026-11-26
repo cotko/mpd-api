@@ -3,6 +3,7 @@ const fs = require('fs')
 const path = require('path')
 // const util = require('util')
 const { loadDoc, MPD_PROTO_URL } = require('./load')
+const { ARGS_TS, STICKER_METHODS_TS, METHODS_TS } = require('./signatures')
 
 const TPL_PATH = path.join(__dirname, 'typings.tpl')
 const TYPINGS_PATH = path.join(__dirname, '..', 'lib', 'index.d.ts')
@@ -14,6 +15,7 @@ const INDENT = parseInt(
 )
 
 // true for objects, string for others
+// (pickBy / pickFirst are typed in RETURN_TYPE_OVERRIDE)
 const RETURN_TYPE_IS_NOT_LIST = {
   parser: {
     object: true
@@ -25,34 +27,12 @@ const RETURN_TYPE_IS_NOT_LIST = {
   }
 }
 
-const ARGS_TS = {
-  dblist: '(tag: string, filter: string | false, ...group_by_tags: string[])',
-  stickerSet: '(uri: string, name: string, value: string)',
-  stickerDel: '(uri: string, name: string)',
-  stickerFind: '(name: string, uri?: string)',
-  stickerSearch: '(name: string, value: string, comparator?: string, uri?: string)'
-}
-const METHODS_TS = {
-  albumart: {
-    args: '(uri: string, offset?: number)',
-    declareType: '<T extends object>',
-    retType: 'T'
-  },
-  albumartWhole: {
-    args: '(uri: string)',
-    declareType: '<T extends object>',
-    retType: 'T'
-  },
-  readpicture: {
-    args: '(uri: string, offset?: number)',
-    declareType: '<T extends object>',
-    retType: 'T'
-  },
-  readpictureWhole: {
-    args: '(uri: string)',
-    declareType: '<T extends object>',
-    retType: 'T'
-  }
+// reducers that don't return objects: [generic declaration, return type]
+//   pickBy:    a list of one field, e.g. tag type names
+//   pickFirst: the first value: an id (addid), a sticker value, a song …
+const RETURN_TYPE_OVERRIDE = {
+  pickBy: ['<T = string>', 'T[]'],
+  pickFirst: ['<T = any>', 'T']
 }
 
 const generateTypings = async () => {
@@ -113,7 +93,7 @@ const getMethodTyping = method => {
 
   const comment = [
     '/**',
-    ` * mpd command: \`${method.spec.mpdcmd}\``,
+    ` * mpd command: \`${[method.spec.mpdcmd].concat(method.spec.boundArgs || []).join(' ')}\``,
     ' */'
   ]
 
@@ -121,7 +101,13 @@ const getMethodTyping = method => {
     ? ARGS_TS[method.spec.arguments[method.spec.arguments.length - 1].path.join('.')]
     : false
 
-  if (!argOverriden && method.spec.useMethod) {
+  const stickerMethod = STICKER_METHODS_TS[method.spec.useMethod]
+  if (stickerMethod) {
+    const bound = method.spec.boundArgs && method.spec.boundArgs.length
+    argOverriden = `(${bound ? '' : 'tag: string, '}${stickerMethod.args})`
+    declareType = ''
+    retType = stickerMethod.retType
+  } else if (!argOverriden && method.spec.useMethod) {
     const useMethodSpec = METHODS_TS[method.spec.useMethod]
     argOverriden = useMethodSpec.args
     declareType = useMethodSpec.declareType
@@ -134,8 +120,8 @@ const getMethodTyping = method => {
           argOverriden
         ]
       : [
-          '(args?: (string | typeof mpd.Command)[])',
-          '(...args: (string | typeof mpd.Command)[])'
+          '(args?: (string | number | MPD.Command)[])',
+          '(...args: (string | number | MPD.Command)[])'
         ]
   ]
     .flat()
@@ -158,6 +144,8 @@ const getMethodReturnType = (typ = 'T', spec) => {
   let parsersFound = false
   for (const key of keys) {
     if (key === 'reducer') {
+      const override = RETURN_TYPE_OVERRIDE[spec.reducer[spec.reducer.length - 1].path[0]]
+      if (override) return override
       notList = RETURN_TYPE_IS_NOT_LIST
         .reducer[spec.reducer[spec.reducer.length - 1].path.join('.')]
       parsersFound = true

@@ -152,6 +152,41 @@ Wraps the MPD client from [mpd2 module](https://github.com/cotko/mpd.js) with ap
 
   ```
 
+#### stickers: ratings, likes, play counts
+
+  MPD stores stickers on songs, and since MPD 0.24 also on stored playlists,
+  tag values (an album, an artist, …) and filter expressions:
+  `api.sticker` (songs), `api.stickerPlaylist`, `api.stickerTag` (tag type
+  first) and `api.stickerFilter`. Every object must exist in MPD's database,
+  so streams can't have stickers.
+
+  The rating and play-count methods use the sticker names other clients
+  agreed on ([mpd-stickers](https://github.com/jcorporation/mpd-stickers):
+  myMPD, Euphonica, rmpc, Cantata, …), so values set here show up there too:
+  `rating` 0-10, `like` 0/1/2, `playCount`, `skipCount`, `lastPlayed`,
+  `lastSkipped` (unix seconds) and `elapsed` (seconds).
+
+  ```js
+  const { api } = client
+  await api.sticker.setRating('Album/01.mp3', 8)    // 4 stars
+  await api.sticker.setFavourite('Album/01.mp3')    // like = 2
+  await api.sticker.incPlayCount('Album/01.mp3')    // playCount + 1, lastPlayed = now
+  await api.sticker.getStats('Album/01.mp3')
+  // { rating: 8, like: 2, playCount: 1, lastPlayed: 1764081000 }
+
+  // most played: MPD compares the values as integers
+  await api.sticker.search('playCount', '10', 'gt')
+  await api.sticker.find('playCount', '', 'sort', 'value_int', 'window', '0:20')
+
+  // an artist; an album, as the filter other clients use for albums
+  await api.stickerTag.setRating('Artist', 'Nina Simone', 10)
+  const album = mpdapi.stickerAlbumFilter({ albumArtist: 'Nina Simone', album: 'Pastel Blues', date: 1965 })
+  await api.stickerFilter.setRating(album, 9)
+  ```
+
+  Stickers on songs are keyed by the file's path and on playlists by name:
+  renaming either loses them. Tag stickers last as long as the tag value does.
+
 
 
 
@@ -237,6 +272,118 @@ method binds arguments which can not be changed
 </p>
 </details>
 
+<details>
+<summary><tt>async connection.<b>getAvailableTagTypes</b>(...args)</tt> --> <tt>tagtypes <em>available</em>, ...args</tt></summary>
+<p>
+
+method binds arguments which can not be changed
+
+</p>
+</details>
+
+<details>
+<summary><tt>async connection.<b>resetTagTypes</b>(...args)</tt> --> <tt>tagtypes <em>reset</em>, ...args</tt></summary>
+<p>
+
+method binds arguments which can not be changed
+
+</p>
+</details>
+
+<tt>async connection.<b>getProtocolFeatures</b>(...args)</tt> --> <tt>protocol ...args</tt>
+
+<details>
+<summary><tt>async connection.<b>getAvailableProtocolFeatures</b>(...args)</tt> --> <tt>protocol <em>available</em>, ...args</tt></summary>
+<p>
+
+method binds arguments which can not be changed
+
+</p>
+</details>
+
+<details>
+<summary><tt>async connection.<b>enableProtocolFeatures</b>(...args)</tt> --> <tt>protocol <em>enable</em>, ...args</tt></summary>
+<p>
+
+method binds arguments which can not be changed
+
+</p>
+</details>
+
+<details>
+<summary><tt>async connection.<b>disableProtocolFeatures</b>(...args)</tt> --> <tt>protocol <em>disable</em>, ...args</tt></summary>
+<p>
+
+method binds arguments which can not be changed
+
+</p>
+</details>
+
+<details>
+<summary><tt>async connection.<b>clearProtocolFeatures</b>(...args)</tt> --> <tt>protocol <em>clear</em>, ...args</tt></summary>
+<p>
+
+method binds arguments which can not be changed
+
+</p>
+</details>
+
+<details>
+<summary><tt>async connection.<b>enableAllProtocolFeatures</b>(...args)</tt> --> <tt>protocol <em>all</em>, ...args</tt></summary>
+<p>
+
+method binds arguments which can not be changed
+
+</p>
+</details>
+
+<tt>async connection.<b>getStringNormalization</b>(...args)</tt> --> <tt>stringnormalization ...args</tt>
+
+<details>
+<summary><tt>async connection.<b>getAvailableStringNormalization</b>(...args)</tt> --> <tt>stringnormalization <em>available</em>, ...args</tt></summary>
+<p>
+
+method binds arguments which can not be changed
+
+</p>
+</details>
+
+<details>
+<summary><tt>async connection.<b>enableStringNormalization</b>(...args)</tt> --> <tt>stringnormalization <em>enable</em>, ...args</tt></summary>
+<p>
+
+method binds arguments which can not be changed
+
+</p>
+</details>
+
+<details>
+<summary><tt>async connection.<b>disableStringNormalization</b>(...args)</tt> --> <tt>stringnormalization <em>disable</em>, ...args</tt></summary>
+<p>
+
+method binds arguments which can not be changed
+
+</p>
+</details>
+
+<details>
+<summary><tt>async connection.<b>clearStringNormalization</b>(...args)</tt> --> <tt>stringnormalization <em>clear</em>, ...args</tt></summary>
+<p>
+
+method binds arguments which can not be changed
+
+</p>
+</details>
+
+<details>
+<summary><tt>async connection.<b>enableAllStringNormalization</b>(...args)</tt> --> <tt>stringnormalization <em>all</em>, ...args</tt></summary>
+<p>
+
+method binds arguments which can not be changed
+
+</p>
+</details>
+
 <tt>async connection.<b>binarylimit</b>(...args)</tt> --> <tt>binarylimit ...args</tt>
 
 
@@ -258,6 +405,8 @@ method reorderes or augments passed arguments, see <a href="lib/api/mutate/argum
 </details>
 
 <tt>async db.<b>count</b>(...args)</tt> --> <tt>count ...args</tt>
+
+<tt>async db.<b>searchCount</b>(...args)</tt> --> <tt>searchcount ...args</tt>
 
 <tt>async db.<b>find</b>(...args)</tt> --> <tt>find ...args</tt>
 
@@ -284,7 +433,7 @@ method reorderes or augments passed arguments, see <a href="lib/api/mutate/argum
 <tt>async db.<b>getfingerprint</b>(...args)</tt> --> <tt>getfingerprint ...args</tt>
 
 <details>
-<summary><tt>async db.<b>albumart</b>(...args)</tt> --> <tt><a href="lib/api/mutate/method.js#L128">albumart</a></tt></summary>
+<summary><tt>async db.<b>albumart</b>(uri: string, offset?: number)</tt> --> <tt><a href="lib/api/mutate/method.js#L132">albumart</a></tt></summary>
 <p>
 
 method ignores <b>NO_EXIST</b>, expect *undefined* in this case   
@@ -293,7 +442,7 @@ method ignores <b>NO_EXIST</b>, expect *undefined* in this case
 </details>
 
 <details>
-<summary><tt>async db.<b>albumartWhole</b>(...args)</tt> --> <tt><a href="lib/api/mutate/method.js#L129">albumartWhole</a></tt></summary>
+<summary><tt>async db.<b>albumartWhole</b>(uri: string)</tt> --> <tt><a href="lib/api/mutate/method.js#L133">albumartWhole</a></tt></summary>
 <p>
 
 method ignores <b>NO_EXIST</b>, expect *undefined* in this case   
@@ -302,7 +451,7 @@ method ignores <b>NO_EXIST</b>, expect *undefined* in this case
 </details>
 
 <details>
-<summary><tt>async db.<b>readpicture</b>(...args)</tt> --> <tt><a href="lib/api/mutate/method.js#L131">readpicture</a></tt></summary>
+<summary><tt>async db.<b>readpicture</b>(uri: string, offset?: number)</tt> --> <tt><a href="lib/api/mutate/method.js#L135">readpicture</a></tt></summary>
 <p>
 
 method ignores <b>NO_EXIST</b>, expect *undefined* in this case   
@@ -311,7 +460,7 @@ method ignores <b>NO_EXIST</b>, expect *undefined* in this case
 </details>
 
 <details>
-<summary><tt>async db.<b>readpictureWhole</b>(...args)</tt> --> <tt><a href="lib/api/mutate/method.js#L132">readpictureWhole</a></tt></summary>
+<summary><tt>async db.<b>readpictureWhole</b>(uri: string)</tt> --> <tt><a href="lib/api/mutate/method.js#L136">readpictureWhole</a></tt></summary>
 <p>
 
 method ignores <b>NO_EXIST</b>, expect *undefined* in this case   
@@ -443,7 +592,7 @@ method reorderes or augments passed arguments, see <a href="lib/api/mutate/argum
 <summary><tt>async playback.<b>mixrampdelay</b>(...args)</tt> --> <tt>mixrampdelay ...args</tt></summary>
 <p>
 
-method reorderes or augments passed arguments, see <a href="lib/api/mutate/argument.js#L71">mixrampdelay</a>
+method reorderes or augments passed arguments, see <a href="lib/api/mutate/argument.js#L93">mixrampdelay</a>
 
 </p>
 </details>
@@ -470,7 +619,7 @@ method reorderes or augments passed arguments, see <a href="lib/api/mutate/argum
 <summary><tt>async playback.<b>single</b>(...args)</tt> --> <tt>single ...args</tt></summary>
 <p>
 
-method reorderes or augments passed arguments, see <a href="lib/api/mutate/argument.js#L78">single</a>
+method reorderes or augments passed arguments, see <a href="lib/api/mutate/argument.js#L100">single</a>
 
 </p>
 </details>
@@ -481,7 +630,7 @@ method reorderes or augments passed arguments, see <a href="lib/api/mutate/argum
 <summary><tt>async playback.<b>setReplayGain</b>(...args)</tt> --> <tt>replay_gain_mode ...args</tt></summary>
 <p>
 
-method reorderes or augments passed arguments, see <a href="lib/api/mutate/argument.js#L85">replaygain</a>
+method reorderes or augments passed arguments, see <a href="lib/api/mutate/argument.js#L107">replaygain</a>
 
 </p>
 </details>
@@ -498,6 +647,10 @@ method reorderes or augments passed arguments, see <a href="lib/api/mutate/argum
 <tt>async playlists.<b>list</b>(...args)</tt> --> <tt>listplaylist ...args</tt>
 
 <tt>async playlists.<b>listinfo</b>(...args)</tt> --> <tt>listplaylistinfo ...args</tt>
+
+<tt>async playlists.<b>search</b>(...args)</tt> --> <tt>searchplaylist ...args</tt>
+
+<tt>async playlists.<b>length</b>(...args)</tt> --> <tt>playlistlength ...args</tt>
 
 <tt>async playlists.<b>load</b>(...args)</tt> --> <tt>load ...args</tt>
 
@@ -592,7 +745,7 @@ method reorderes or augments passed arguments, see <a href="lib/api/mutate/argum
 
 
 
-#####  Stickers [MPD documentation](https://mpd.readthedocs.io/en/latest/protocol.html#stickers)
+#####  Stickers on songs (and the sticker database) [MPD documentation](https://mpd.readthedocs.io/en/latest/protocol.html#stickers)
 
 
 <details>
@@ -605,7 +758,7 @@ method binds arguments which can not be changed
 </details>
 
 <details>
-<summary><tt>async sticker.<b>set</b>(...args)</tt> --> <tt>sticker <em>set, song</em>, ...args</tt></summary>
+<summary><tt>async sticker.<b>set</b>(uri: string, name: string, value: string | number)</tt> --> <tt>sticker <em>set, song</em>, ...args</tt></summary>
 <p>
 
 method binds arguments which can not be changed
@@ -627,7 +780,7 @@ method ignores <b>NO_EXIST</b>, expect *undefined* in this case
 </details>
 
 <details>
-<summary><tt>async sticker.<b>delete</b>(...args)</tt> --> <tt>sticker <em>delete, song</em>, ...args</tt></summary>
+<summary><tt>async sticker.<b>delete</b>(uri: string, name: string)</tt> --> <tt>sticker <em>delete, song</em>, ...args</tt></summary>
 <p>
 
 method binds arguments which can not be changed
@@ -651,7 +804,29 @@ method ignores <b>NO_EXIST</b>, expect *undefined* in this case
 </details>
 
 <details>
-<summary><tt>async sticker.<b>find</b>(...args)</tt> --> <tt>sticker <em>find, song</em>, ...args</tt></summary>
+<summary><tt>async sticker.<b>inc</b>(uri: string, name: string, value?: number)</tt> --> <tt>sticker <em>inc, song</em>, ...args</tt></summary>
+<p>
+
+method binds arguments which can not be changed
+
+method reorderes or augments passed arguments, see <a href="lib/api/mutate/argument.js#L73">stickerInc</a>
+
+</p>
+</details>
+
+<details>
+<summary><tt>async sticker.<b>dec</b>(uri: string, name: string, value?: number)</tt> --> <tt>sticker <em>dec, song</em>, ...args</tt></summary>
+<p>
+
+method binds arguments which can not be changed
+
+method reorderes or augments passed arguments, see <a href="lib/api/mutate/argument.js#L73">stickerInc</a>
+
+</p>
+</details>
+
+<details>
+<summary><tt>async sticker.<b>find</b>(name: string, uri?: string)</tt> --> <tt>sticker <em>find, song</em>, ...args</tt></summary>
 <p>
 
 method binds arguments which can not be changed
@@ -662,7 +837,7 @@ method reorderes or augments passed arguments, see <a href="lib/api/mutate/argum
 </details>
 
 <details>
-<summary><tt>async sticker.<b>search</b>(...args)</tt> --> <tt>sticker <em>find, song</em>, ...args</tt></summary>
+<summary><tt>async sticker.<b>search</b>(name: string, value: string, comparator?: string, uri?: string)</tt> --> <tt>sticker <em>find, song</em>, ...args</tt></summary>
 <p>
 
 method binds arguments which can not be changed
@@ -671,6 +846,525 @@ method reorderes or augments passed arguments, see <a href="lib/api/mutate/argum
 
 </p>
 </details>
+
+<details>
+<summary><tt>async sticker.<b>getRating</b>(uri: string)</tt> --> <tt><a href="lib/api/mutate/method.js#L188">stickerGetRating</a></tt></summary>
+<p>
+
+method binds arguments which can not be changed
+
+</p>
+</details>
+
+<details>
+<summary><tt>async sticker.<b>setRating</b>(uri: string, rating: number)</tt> --> <tt><a href="lib/api/mutate/method.js#L195">stickerSetRating</a></tt></summary>
+<p>
+
+method binds arguments which can not be changed
+
+</p>
+</details>
+
+<details>
+<summary><tt>async sticker.<b>getLike</b>(uri: string)</tt> --> <tt><a href="lib/api/mutate/method.js#L189">stickerGetLike</a></tt></summary>
+<p>
+
+method binds arguments which can not be changed
+
+</p>
+</details>
+
+<details>
+<summary><tt>async sticker.<b>setLike</b>(uri: string, like: 0 | 1 | 2)</tt> --> <tt><a href="lib/api/mutate/method.js#L202">stickerSetLike</a></tt></summary>
+<p>
+
+method binds arguments which can not be changed
+
+</p>
+</details>
+
+<details>
+<summary><tt>async sticker.<b>setFavourite</b>(uri: string, favourite?: boolean)</tt> --> <tt><a href="lib/api/mutate/method.js#L210">stickerSetFavourite</a></tt></summary>
+<p>
+
+method binds arguments which can not be changed
+
+</p>
+</details>
+
+<details>
+<summary><tt>async sticker.<b>getStats</b>(uri: string)</tt> --> <tt><a href="lib/api/mutate/method.js#L246">stickerGetStats</a></tt></summary>
+<p>
+
+method binds arguments which can not be changed
+
+</p>
+</details>
+
+<details>
+<summary><tt>async sticker.<b>incPlayCount</b>(uri: string, at?: number)</tt> --> <tt><a href="lib/api/mutate/method.js#L216">stickerIncPlayCount</a></tt></summary>
+<p>
+
+method binds arguments which can not be changed
+
+</p>
+</details>
+
+<details>
+<summary><tt>async sticker.<b>incSkipCount</b>(uri: string, at?: number)</tt> --> <tt><a href="lib/api/mutate/method.js#L225">stickerIncSkipCount</a></tt></summary>
+<p>
+
+method binds arguments which can not be changed
+
+</p>
+</details>
+
+<details>
+<summary><tt>async sticker.<b>setElapsed</b>(uri: string, seconds: number)</tt> --> <tt><a href="lib/api/mutate/method.js#L234">stickerSetElapsed</a></tt></summary>
+<p>
+
+method binds arguments which can not be changed
+
+</p>
+</details>
+
+<tt>async sticker.<b>types</b>(...args)</tt> --> <tt>stickertypes ...args</tt>
+
+<tt>async sticker.<b>names</b>(...args)</tt> --> <tt>stickernames ...args</tt>
+
+<tt>async sticker.<b>namesTypes</b>(...args)</tt> --> <tt>stickernamestypes ...args</tt>
+
+
+
+#####  Stickers on filter expressions [MPD documentation](https://mpd.readthedocs.io/en/latest/protocol.html#stickers)
+
+
+<details>
+<summary><tt>async stickerFilter.<b>list</b>(...args)</tt> --> <tt>sticker <em>list, filter</em>, ...args</tt></summary>
+<p>
+
+method binds arguments which can not be changed
+
+</p>
+</details>
+
+<details>
+<summary><tt>async stickerFilter.<b>set</b>(uri: string, name: string, value: string | number)</tt> --> <tt>sticker <em>set, filter</em>, ...args</tt></summary>
+<p>
+
+method binds arguments which can not be changed
+
+method reorderes or augments passed arguments, see <a href="lib/api/mutate/argument.js#L17">stickerSet</a>
+
+</p>
+</details>
+
+<details>
+<summary><tt>async stickerFilter.<b>get</b>(...args)</tt> --> <tt>sticker <em>get, filter</em>, ...args</tt></summary>
+<p>
+
+method binds arguments which can not be changed
+
+method ignores <b>NO_EXIST</b>, expect *undefined* in this case   
+    
+</p>
+</details>
+
+<details>
+<summary><tt>async stickerFilter.<b>delete</b>(uri: string, name: string)</tt> --> <tt>sticker <em>delete, filter</em>, ...args</tt></summary>
+<p>
+
+method binds arguments which can not be changed
+
+method reorderes or augments passed arguments, see <a href="lib/api/mutate/argument.js#L27">stickerDel</a>
+
+method ignores <b>NO_EXIST</b>, expect *undefined* in this case   
+    
+</p>
+</details>
+
+<details>
+<summary><tt>async stickerFilter.<b>deleteAll</b>(...args)</tt> --> <tt>sticker <em>delete, filter</em>, ...args</tt></summary>
+<p>
+
+method binds arguments which can not be changed
+
+method ignores <b>NO_EXIST</b>, expect *undefined* in this case   
+    
+</p>
+</details>
+
+<details>
+<summary><tt>async stickerFilter.<b>inc</b>(uri: string, name: string, value?: number)</tt> --> <tt>sticker <em>inc, filter</em>, ...args</tt></summary>
+<p>
+
+method binds arguments which can not be changed
+
+method reorderes or augments passed arguments, see <a href="lib/api/mutate/argument.js#L73">stickerInc</a>
+
+</p>
+</details>
+
+<details>
+<summary><tt>async stickerFilter.<b>dec</b>(uri: string, name: string, value?: number)</tt> --> <tt>sticker <em>dec, filter</em>, ...args</tt></summary>
+<p>
+
+method binds arguments which can not be changed
+
+method reorderes or augments passed arguments, see <a href="lib/api/mutate/argument.js#L73">stickerInc</a>
+
+</p>
+</details>
+
+<details>
+<summary><tt>async stickerFilter.<b>find</b>(name: string, uri?: string)</tt> --> <tt>sticker <em>find, filter</em>, ...args</tt></summary>
+<p>
+
+method binds arguments which can not be changed
+
+method reorderes or augments passed arguments, see <a href="lib/api/mutate/argument.js#L33">stickerFind</a>
+
+</p>
+</details>
+
+<details>
+<summary><tt>async stickerFilter.<b>search</b>(name: string, value: string, comparator?: string, uri?: string)</tt> --> <tt>sticker <em>find, filter</em>, ...args</tt></summary>
+<p>
+
+method binds arguments which can not be changed
+
+method reorderes or augments passed arguments, see <a href="lib/api/mutate/argument.js#L52">stickerSearch</a>
+
+</p>
+</details>
+
+<details>
+<summary><tt>async stickerFilter.<b>getRating</b>(uri: string)</tt> --> <tt><a href="lib/api/mutate/method.js#L188">stickerGetRating</a></tt></summary>
+<p>
+
+method binds arguments which can not be changed
+
+</p>
+</details>
+
+<details>
+<summary><tt>async stickerFilter.<b>setRating</b>(uri: string, rating: number)</tt> --> <tt><a href="lib/api/mutate/method.js#L195">stickerSetRating</a></tt></summary>
+<p>
+
+method binds arguments which can not be changed
+
+</p>
+</details>
+
+<details>
+<summary><tt>async stickerFilter.<b>getLike</b>(uri: string)</tt> --> <tt><a href="lib/api/mutate/method.js#L189">stickerGetLike</a></tt></summary>
+<p>
+
+method binds arguments which can not be changed
+
+</p>
+</details>
+
+<details>
+<summary><tt>async stickerFilter.<b>setLike</b>(uri: string, like: 0 | 1 | 2)</tt> --> <tt><a href="lib/api/mutate/method.js#L202">stickerSetLike</a></tt></summary>
+<p>
+
+method binds arguments which can not be changed
+
+</p>
+</details>
+
+<details>
+<summary><tt>async stickerFilter.<b>setFavourite</b>(uri: string, favourite?: boolean)</tt> --> <tt><a href="lib/api/mutate/method.js#L210">stickerSetFavourite</a></tt></summary>
+<p>
+
+method binds arguments which can not be changed
+
+</p>
+</details>
+
+<details>
+<summary><tt>async stickerFilter.<b>getStats</b>(uri: string)</tt> --> <tt><a href="lib/api/mutate/method.js#L246">stickerGetStats</a></tt></summary>
+<p>
+
+method binds arguments which can not be changed
+
+</p>
+</details>
+
+
+
+#####  Stickers on stored playlists [MPD documentation](https://mpd.readthedocs.io/en/latest/protocol.html#stickers)
+
+
+<details>
+<summary><tt>async stickerPlaylist.<b>list</b>(...args)</tt> --> <tt>sticker <em>list, playlist</em>, ...args</tt></summary>
+<p>
+
+method binds arguments which can not be changed
+
+</p>
+</details>
+
+<details>
+<summary><tt>async stickerPlaylist.<b>set</b>(uri: string, name: string, value: string | number)</tt> --> <tt>sticker <em>set, playlist</em>, ...args</tt></summary>
+<p>
+
+method binds arguments which can not be changed
+
+method reorderes or augments passed arguments, see <a href="lib/api/mutate/argument.js#L17">stickerSet</a>
+
+</p>
+</details>
+
+<details>
+<summary><tt>async stickerPlaylist.<b>get</b>(...args)</tt> --> <tt>sticker <em>get, playlist</em>, ...args</tt></summary>
+<p>
+
+method binds arguments which can not be changed
+
+method ignores <b>NO_EXIST</b>, expect *undefined* in this case   
+    
+</p>
+</details>
+
+<details>
+<summary><tt>async stickerPlaylist.<b>delete</b>(uri: string, name: string)</tt> --> <tt>sticker <em>delete, playlist</em>, ...args</tt></summary>
+<p>
+
+method binds arguments which can not be changed
+
+method reorderes or augments passed arguments, see <a href="lib/api/mutate/argument.js#L27">stickerDel</a>
+
+method ignores <b>NO_EXIST</b>, expect *undefined* in this case   
+    
+</p>
+</details>
+
+<details>
+<summary><tt>async stickerPlaylist.<b>deleteAll</b>(...args)</tt> --> <tt>sticker <em>delete, playlist</em>, ...args</tt></summary>
+<p>
+
+method binds arguments which can not be changed
+
+method ignores <b>NO_EXIST</b>, expect *undefined* in this case   
+    
+</p>
+</details>
+
+<details>
+<summary><tt>async stickerPlaylist.<b>inc</b>(uri: string, name: string, value?: number)</tt> --> <tt>sticker <em>inc, playlist</em>, ...args</tt></summary>
+<p>
+
+method binds arguments which can not be changed
+
+method reorderes or augments passed arguments, see <a href="lib/api/mutate/argument.js#L73">stickerInc</a>
+
+</p>
+</details>
+
+<details>
+<summary><tt>async stickerPlaylist.<b>dec</b>(uri: string, name: string, value?: number)</tt> --> <tt>sticker <em>dec, playlist</em>, ...args</tt></summary>
+<p>
+
+method binds arguments which can not be changed
+
+method reorderes or augments passed arguments, see <a href="lib/api/mutate/argument.js#L73">stickerInc</a>
+
+</p>
+</details>
+
+<details>
+<summary><tt>async stickerPlaylist.<b>find</b>(name: string, uri?: string)</tt> --> <tt>sticker <em>find, playlist</em>, ...args</tt></summary>
+<p>
+
+method binds arguments which can not be changed
+
+method reorderes or augments passed arguments, see <a href="lib/api/mutate/argument.js#L33">stickerFind</a>
+
+</p>
+</details>
+
+<details>
+<summary><tt>async stickerPlaylist.<b>search</b>(name: string, value: string, comparator?: string, uri?: string)</tt> --> <tt>sticker <em>find, playlist</em>, ...args</tt></summary>
+<p>
+
+method binds arguments which can not be changed
+
+method reorderes or augments passed arguments, see <a href="lib/api/mutate/argument.js#L52">stickerSearch</a>
+
+</p>
+</details>
+
+<details>
+<summary><tt>async stickerPlaylist.<b>getRating</b>(uri: string)</tt> --> <tt><a href="lib/api/mutate/method.js#L188">stickerGetRating</a></tt></summary>
+<p>
+
+method binds arguments which can not be changed
+
+</p>
+</details>
+
+<details>
+<summary><tt>async stickerPlaylist.<b>setRating</b>(uri: string, rating: number)</tt> --> <tt><a href="lib/api/mutate/method.js#L195">stickerSetRating</a></tt></summary>
+<p>
+
+method binds arguments which can not be changed
+
+</p>
+</details>
+
+<details>
+<summary><tt>async stickerPlaylist.<b>getLike</b>(uri: string)</tt> --> <tt><a href="lib/api/mutate/method.js#L189">stickerGetLike</a></tt></summary>
+<p>
+
+method binds arguments which can not be changed
+
+</p>
+</details>
+
+<details>
+<summary><tt>async stickerPlaylist.<b>setLike</b>(uri: string, like: 0 | 1 | 2)</tt> --> <tt><a href="lib/api/mutate/method.js#L202">stickerSetLike</a></tt></summary>
+<p>
+
+method binds arguments which can not be changed
+
+</p>
+</details>
+
+<details>
+<summary><tt>async stickerPlaylist.<b>setFavourite</b>(uri: string, favourite?: boolean)</tt> --> <tt><a href="lib/api/mutate/method.js#L210">stickerSetFavourite</a></tt></summary>
+<p>
+
+method binds arguments which can not be changed
+
+</p>
+</details>
+
+<details>
+<summary><tt>async stickerPlaylist.<b>getStats</b>(uri: string)</tt> --> <tt><a href="lib/api/mutate/method.js#L246">stickerGetStats</a></tt></summary>
+<p>
+
+method binds arguments which can not be changed
+
+</p>
+</details>
+
+
+
+#####  Stickers on tag values [MPD documentation](https://mpd.readthedocs.io/en/latest/protocol.html#stickers)
+
+
+<details>
+<summary><tt>async stickerTag.<b>list</b>(...args)</tt> --> <tt>sticker <em>list</em>, ...args</tt></summary>
+<p>
+
+method binds arguments which can not be changed
+
+</p>
+</details>
+
+<details>
+<summary><tt>async stickerTag.<b>set</b>(tag: string, uri: string, name: string, value: string | number)</tt> --> <tt>sticker <em>set</em>, ...args</tt></summary>
+<p>
+
+method binds arguments which can not be changed
+
+method reorderes or augments passed arguments, see <a href="lib/api/mutate/argument.js#L84">tagStickerSet</a>
+
+</p>
+</details>
+
+<details>
+<summary><tt>async stickerTag.<b>get</b>(...args)</tt> --> <tt>sticker <em>get</em>, ...args</tt></summary>
+<p>
+
+method binds arguments which can not be changed
+
+method ignores <b>NO_EXIST</b>, expect *undefined* in this case   
+    
+</p>
+</details>
+
+<details>
+<summary><tt>async stickerTag.<b>delete</b>(tag: string, uri: string, name: string)</tt> --> <tt>sticker <em>delete</em>, ...args</tt></summary>
+<p>
+
+method binds arguments which can not be changed
+
+method reorderes or augments passed arguments, see <a href="lib/api/mutate/argument.js#L85">tagStickerDel</a>
+
+method ignores <b>NO_EXIST</b>, expect *undefined* in this case   
+    
+</p>
+</details>
+
+<details>
+<summary><tt>async stickerTag.<b>deleteAll</b>(...args)</tt> --> <tt>sticker <em>delete</em>, ...args</tt></summary>
+<p>
+
+method binds arguments which can not be changed
+
+method ignores <b>NO_EXIST</b>, expect *undefined* in this case   
+    
+</p>
+</details>
+
+<details>
+<summary><tt>async stickerTag.<b>inc</b>(tag: string, uri: string, name: string, value?: number)</tt> --> <tt>sticker <em>inc</em>, ...args</tt></summary>
+<p>
+
+method binds arguments which can not be changed
+
+method reorderes or augments passed arguments, see <a href="lib/api/mutate/argument.js#L86">tagStickerInc</a>
+
+</p>
+</details>
+
+<details>
+<summary><tt>async stickerTag.<b>dec</b>(tag: string, uri: string, name: string, value?: number)</tt> --> <tt>sticker <em>dec</em>, ...args</tt></summary>
+<p>
+
+method binds arguments which can not be changed
+
+method reorderes or augments passed arguments, see <a href="lib/api/mutate/argument.js#L86">tagStickerInc</a>
+
+</p>
+</details>
+
+<details>
+<summary><tt>async stickerTag.<b>find</b>(tag: string, name: string, uri?: string)</tt> --> <tt>sticker <em>find</em>, ...args</tt></summary>
+<p>
+
+method binds arguments which can not be changed
+
+method reorderes or augments passed arguments, see <a href="lib/api/mutate/argument.js#L87">tagStickerFind</a>
+
+</p>
+</details>
+
+<details>
+<summary><tt>async stickerTag.<b>search</b>(tag: string, name: string, value: string, comparator?: string, uri?: string)</tt> --> <tt>sticker <em>find</em>, ...args</tt></summary>
+<p>
+
+method binds arguments which can not be changed
+
+method reorderes or augments passed arguments, see <a href="lib/api/mutate/argument.js#L88">tagStickerSearch</a>
+
+</p>
+</details>
+
+<tt>async stickerTag.<b>getRating</b>(tag: string, uri: string)</tt> --> <tt><a href="lib/api/mutate/method.js#L188">stickerGetRating</a></tt>
+
+<tt>async stickerTag.<b>setRating</b>(tag: string, uri: string, rating: number)</tt> --> <tt><a href="lib/api/mutate/method.js#L195">stickerSetRating</a></tt>
+
+<tt>async stickerTag.<b>getLike</b>(tag: string, uri: string)</tt> --> <tt><a href="lib/api/mutate/method.js#L189">stickerGetLike</a></tt>
+
+<tt>async stickerTag.<b>setLike</b>(tag: string, uri: string, like: 0 | 1 | 2)</tt> --> <tt><a href="lib/api/mutate/method.js#L202">stickerSetLike</a></tt>
+
+<tt>async stickerTag.<b>setFavourite</b>(tag: string, uri: string, favourite?: boolean)</tt> --> <tt><a href="lib/api/mutate/method.js#L210">stickerSetFavourite</a></tt>
+
+<tt>async stickerTag.<b>getStats</b>(tag: string, uri: string)</tt> --> <tt><a href="lib/api/mutate/method.js#L246">stickerGetStats</a></tt>
 
 
 
