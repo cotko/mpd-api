@@ -601,8 +601,7 @@ export declare namespace MPDApi {
        * mpd command: `consume`
        */
       consume: {
-        (args?: (string | number | MPD.Command)[]): Promise<void>;
-        (...args: (string | number | MPD.Command)[]): Promise<void>;
+        (state?: boolean | 0 | 1 | '0' | '1' | 'oneshot'): Promise<void>;
       }
       /**
        * mpd command: `crossfade`
@@ -622,29 +621,25 @@ export declare namespace MPDApi {
        * mpd command: `mixrampdelay`
        */
       mixrampdelay: {
-        (args?: (string | number | MPD.Command)[]): Promise<void>;
-        (...args: (string | number | MPD.Command)[]): Promise<void>;
+        (seconds: number | string | false): Promise<void>;
       }
       /**
        * mpd command: `random`
        */
       random: {
-        (args?: (string | number | MPD.Command)[]): Promise<void>;
-        (...args: (string | number | MPD.Command)[]): Promise<void>;
+        (state?: boolean | 0 | 1 | '0' | '1'): Promise<void>;
       }
       /**
        * mpd command: `repeat`
        */
       repeat: {
-        (args?: (string | number | MPD.Command)[]): Promise<void>;
-        (...args: (string | number | MPD.Command)[]): Promise<void>;
+        (state?: boolean | 0 | 1 | '0' | '1'): Promise<void>;
       }
       /**
        * mpd command: `single`
        */
       single: {
-        (args?: (string | number | MPD.Command)[]): Promise<void>;
-        (...args: (string | number | MPD.Command)[]): Promise<void>;
+        (state?: boolean | 0 | 1 | '0' | '1' | 'oneshot'): Promise<void>;
       }
       /**
        * mpd command: `setvol`
@@ -657,8 +652,7 @@ export declare namespace MPDApi {
        * mpd command: `replay_gain_mode`
        */
       setReplayGain: {
-        (args?: (string | number | MPD.Command)[]): Promise<void>;
-        (...args: (string | number | MPD.Command)[]): Promise<void>;
+        (mode: 'off' | 'track' | 'album' | 'auto' | false): Promise<void>;
       }
       /**
        * mpd command: `replay_gain_status`

@@ -399,7 +399,7 @@ method binds arguments which can not be changed
 <summary><tt>async db.<b>list</b>(...args)</tt> --> <tt>list ...args</tt></summary>
 <p>
 
-method reorderes or augments passed arguments, see <a href="lib/api/mutate/argument.js#L8">dbList</a>
+method reorderes or augments passed arguments, see <a href="lib/api/mutate/argument.js#L28">dbList</a>
 
 </p>
 </details>
@@ -576,10 +576,10 @@ method binds arguments which can not be changed
 <tt>async playback.<b>getvol</b>(...args)</tt> --> <tt>getvol ...args</tt>
 
 <details>
-<summary><tt>async playback.<b>consume</b>(...args)</tt> --> <tt>consume ...args</tt></summary>
+<summary><tt>async playback.<b>consume</b>(state?: boolean | 0 | 1 | '0' | '1' | 'oneshot')</tt> --> <tt>consume ...args</tt></summary>
 <p>
 
-method reorderes or augments passed arguments, see <a href="lib/api/mutate/argument.js#L3">boolAt</a>
+method reorderes or augments passed arguments, see <a href="lib/api/mutate/argument.js#L26">consume</a>
 
 </p>
 </details>
@@ -589,37 +589,37 @@ method reorderes or augments passed arguments, see <a href="lib/api/mutate/argum
 <tt>async playback.<b>mixrampdb</b>(...args)</tt> --> <tt>mixrampdb ...args</tt>
 
 <details>
-<summary><tt>async playback.<b>mixrampdelay</b>(...args)</tt> --> <tt>mixrampdelay ...args</tt></summary>
+<summary><tt>async playback.<b>mixrampdelay</b>(seconds: number | string | false)</tt> --> <tt>mixrampdelay ...args</tt></summary>
 <p>
 
-method reorderes or augments passed arguments, see <a href="lib/api/mutate/argument.js#L93">mixrampdelay</a>
+method reorderes or augments passed arguments, see <a href="lib/api/mutate/argument.js#L113">mixrampdelay</a>
 
 </p>
 </details>
 
 <details>
-<summary><tt>async playback.<b>random</b>(...args)</tt> --> <tt>random ...args</tt></summary>
+<summary><tt>async playback.<b>random</b>(state?: boolean | 0 | 1 | '0' | '1')</tt> --> <tt>random ...args</tt></summary>
 <p>
 
-method reorderes or augments passed arguments, see <a href="lib/api/mutate/argument.js#L3">boolAt</a>
+method reorderes or augments passed arguments, see <a href="lib/api/mutate/argument.js#L13">boolAt</a>
 
 </p>
 </details>
 
 <details>
-<summary><tt>async playback.<b>repeat</b>(...args)</tt> --> <tt>repeat ...args</tt></summary>
+<summary><tt>async playback.<b>repeat</b>(state?: boolean | 0 | 1 | '0' | '1')</tt> --> <tt>repeat ...args</tt></summary>
 <p>
 
-method reorderes or augments passed arguments, see <a href="lib/api/mutate/argument.js#L3">boolAt</a>
+method reorderes or augments passed arguments, see <a href="lib/api/mutate/argument.js#L13">boolAt</a>
 
 </p>
 </details>
 
 <details>
-<summary><tt>async playback.<b>single</b>(...args)</tt> --> <tt>single ...args</tt></summary>
+<summary><tt>async playback.<b>single</b>(state?: boolean | 0 | 1 | '0' | '1' | 'oneshot')</tt> --> <tt>single ...args</tt></summary>
 <p>
 
-method reorderes or augments passed arguments, see <a href="lib/api/mutate/argument.js#L100">single</a>
+method reorderes or augments passed arguments, see <a href="lib/api/mutate/argument.js#L120">single</a>
 
 </p>
 </details>
@@ -627,10 +627,10 @@ method reorderes or augments passed arguments, see <a href="lib/api/mutate/argum
 <tt>async playback.<b>setvol</b>(...args)</tt> --> <tt>setvol ...args</tt>
 
 <details>
-<summary><tt>async playback.<b>setReplayGain</b>(...args)</tt> --> <tt>replay_gain_mode ...args</tt></summary>
+<summary><tt>async playback.<b>setReplayGain</b>(mode: 'off' | 'track' | 'album' | 'auto' | false)</tt> --> <tt>replay_gain_mode ...args</tt></summary>
 <p>
 
-method reorderes or augments passed arguments, see <a href="lib/api/mutate/argument.js#L107">replaygain</a>
+method reorderes or augments passed arguments, see <a href="lib/api/mutate/argument.js#L122">replaygain</a>
 
 </p>
 </details>
@@ -763,7 +763,7 @@ method binds arguments which can not be changed
 
 method binds arguments which can not be changed
 
-method reorderes or augments passed arguments, see <a href="lib/api/mutate/argument.js#L17">stickerSet</a>
+method reorderes or augments passed arguments, see <a href="lib/api/mutate/argument.js#L37">stickerSet</a>
 
 </p>
 </details>
@@ -785,7 +785,7 @@ method ignores <b>NO_EXIST</b>, expect *undefined* in this case
 
 method binds arguments which can not be changed
 
-method reorderes or augments passed arguments, see <a href="lib/api/mutate/argument.js#L27">stickerDel</a>
+method reorderes or augments passed arguments, see <a href="lib/api/mutate/argument.js#L47">stickerDel</a>
 
 method ignores <b>NO_EXIST</b>, expect *undefined* in this case   
     
@@ -809,7 +809,7 @@ method ignores <b>NO_EXIST</b>, expect *undefined* in this case
 
 method binds arguments which can not be changed
 
-method reorderes or augments passed arguments, see <a href="lib/api/mutate/argument.js#L73">stickerInc</a>
+method reorderes or augments passed arguments, see <a href="lib/api/mutate/argument.js#L93">stickerInc</a>
 
 </p>
 </details>
@@ -820,7 +820,7 @@ method reorderes or augments passed arguments, see <a href="lib/api/mutate/argum
 
 method binds arguments which can not be changed
 
-method reorderes or augments passed arguments, see <a href="lib/api/mutate/argument.js#L73">stickerInc</a>
+method reorderes or augments passed arguments, see <a href="lib/api/mutate/argument.js#L93">stickerInc</a>
 
 </p>
 </details>
@@ -831,7 +831,7 @@ method reorderes or augments passed arguments, see <a href="lib/api/mutate/argum
 
 method binds arguments which can not be changed
 
-method reorderes or augments passed arguments, see <a href="lib/api/mutate/argument.js#L33">stickerFind</a>
+method reorderes or augments passed arguments, see <a href="lib/api/mutate/argument.js#L53">stickerFind</a>
 
 </p>
 </details>
@@ -842,7 +842,7 @@ method reorderes or augments passed arguments, see <a href="lib/api/mutate/argum
 
 method binds arguments which can not be changed
 
-method reorderes or augments passed arguments, see <a href="lib/api/mutate/argument.js#L52">stickerSearch</a>
+method reorderes or augments passed arguments, see <a href="lib/api/mutate/argument.js#L72">stickerSearch</a>
 
 </p>
 </details>
@@ -954,7 +954,7 @@ method binds arguments which can not be changed
 
 method binds arguments which can not be changed
 
-method reorderes or augments passed arguments, see <a href="lib/api/mutate/argument.js#L17">stickerSet</a>
+method reorderes or augments passed arguments, see <a href="lib/api/mutate/argument.js#L37">stickerSet</a>
 
 </p>
 </details>
@@ -976,7 +976,7 @@ method ignores <b>NO_EXIST</b>, expect *undefined* in this case
 
 method binds arguments which can not be changed
 
-method reorderes or augments passed arguments, see <a href="lib/api/mutate/argument.js#L27">stickerDel</a>
+method reorderes or augments passed arguments, see <a href="lib/api/mutate/argument.js#L47">stickerDel</a>
 
 method ignores <b>NO_EXIST</b>, expect *undefined* in this case   
     
@@ -1000,7 +1000,7 @@ method ignores <b>NO_EXIST</b>, expect *undefined* in this case
 
 method binds arguments which can not be changed
 
-method reorderes or augments passed arguments, see <a href="lib/api/mutate/argument.js#L73">stickerInc</a>
+method reorderes or augments passed arguments, see <a href="lib/api/mutate/argument.js#L93">stickerInc</a>
 
 </p>
 </details>
@@ -1011,7 +1011,7 @@ method reorderes or augments passed arguments, see <a href="lib/api/mutate/argum
 
 method binds arguments which can not be changed
 
-method reorderes or augments passed arguments, see <a href="lib/api/mutate/argument.js#L73">stickerInc</a>
+method reorderes or augments passed arguments, see <a href="lib/api/mutate/argument.js#L93">stickerInc</a>
 
 </p>
 </details>
@@ -1022,7 +1022,7 @@ method reorderes or augments passed arguments, see <a href="lib/api/mutate/argum
 
 method binds arguments which can not be changed
 
-method reorderes or augments passed arguments, see <a href="lib/api/mutate/argument.js#L33">stickerFind</a>
+method reorderes or augments passed arguments, see <a href="lib/api/mutate/argument.js#L53">stickerFind</a>
 
 </p>
 </details>
@@ -1033,7 +1033,7 @@ method reorderes or augments passed arguments, see <a href="lib/api/mutate/argum
 
 method binds arguments which can not be changed
 
-method reorderes or augments passed arguments, see <a href="lib/api/mutate/argument.js#L52">stickerSearch</a>
+method reorderes or augments passed arguments, see <a href="lib/api/mutate/argument.js#L72">stickerSearch</a>
 
 </p>
 </details>
@@ -1112,7 +1112,7 @@ method binds arguments which can not be changed
 
 method binds arguments which can not be changed
 
-method reorderes or augments passed arguments, see <a href="lib/api/mutate/argument.js#L17">stickerSet</a>
+method reorderes or augments passed arguments, see <a href="lib/api/mutate/argument.js#L37">stickerSet</a>
 
 </p>
 </details>
@@ -1134,7 +1134,7 @@ method ignores <b>NO_EXIST</b>, expect *undefined* in this case
 
 method binds arguments which can not be changed
 
-method reorderes or augments passed arguments, see <a href="lib/api/mutate/argument.js#L27">stickerDel</a>
+method reorderes or augments passed arguments, see <a href="lib/api/mutate/argument.js#L47">stickerDel</a>
 
 method ignores <b>NO_EXIST</b>, expect *undefined* in this case   
     
@@ -1158,7 +1158,7 @@ method ignores <b>NO_EXIST</b>, expect *undefined* in this case
 
 method binds arguments which can not be changed
 
-method reorderes or augments passed arguments, see <a href="lib/api/mutate/argument.js#L73">stickerInc</a>
+method reorderes or augments passed arguments, see <a href="lib/api/mutate/argument.js#L93">stickerInc</a>
 
 </p>
 </details>
@@ -1169,7 +1169,7 @@ method reorderes or augments passed arguments, see <a href="lib/api/mutate/argum
 
 method binds arguments which can not be changed
 
-method reorderes or augments passed arguments, see <a href="lib/api/mutate/argument.js#L73">stickerInc</a>
+method reorderes or augments passed arguments, see <a href="lib/api/mutate/argument.js#L93">stickerInc</a>
 
 </p>
 </details>
@@ -1180,7 +1180,7 @@ method reorderes or augments passed arguments, see <a href="lib/api/mutate/argum
 
 method binds arguments which can not be changed
 
-method reorderes or augments passed arguments, see <a href="lib/api/mutate/argument.js#L33">stickerFind</a>
+method reorderes or augments passed arguments, see <a href="lib/api/mutate/argument.js#L53">stickerFind</a>
 
 </p>
 </details>
@@ -1191,7 +1191,7 @@ method reorderes or augments passed arguments, see <a href="lib/api/mutate/argum
 
 method binds arguments which can not be changed
 
-method reorderes or augments passed arguments, see <a href="lib/api/mutate/argument.js#L52">stickerSearch</a>
+method reorderes or augments passed arguments, see <a href="lib/api/mutate/argument.js#L72">stickerSearch</a>
 
 </p>
 </details>
@@ -1270,7 +1270,7 @@ method binds arguments which can not be changed
 
 method binds arguments which can not be changed
 
-method reorderes or augments passed arguments, see <a href="lib/api/mutate/argument.js#L84">tagStickerSet</a>
+method reorderes or augments passed arguments, see <a href="lib/api/mutate/argument.js#L104">tagStickerSet</a>
 
 </p>
 </details>
@@ -1292,7 +1292,7 @@ method ignores <b>NO_EXIST</b>, expect *undefined* in this case
 
 method binds arguments which can not be changed
 
-method reorderes or augments passed arguments, see <a href="lib/api/mutate/argument.js#L85">tagStickerDel</a>
+method reorderes or augments passed arguments, see <a href="lib/api/mutate/argument.js#L105">tagStickerDel</a>
 
 method ignores <b>NO_EXIST</b>, expect *undefined* in this case   
     
@@ -1316,7 +1316,7 @@ method ignores <b>NO_EXIST</b>, expect *undefined* in this case
 
 method binds arguments which can not be changed
 
-method reorderes or augments passed arguments, see <a href="lib/api/mutate/argument.js#L86">tagStickerInc</a>
+method reorderes or augments passed arguments, see <a href="lib/api/mutate/argument.js#L106">tagStickerInc</a>
 
 </p>
 </details>
@@ -1327,7 +1327,7 @@ method reorderes or augments passed arguments, see <a href="lib/api/mutate/argum
 
 method binds arguments which can not be changed
 
-method reorderes or augments passed arguments, see <a href="lib/api/mutate/argument.js#L86">tagStickerInc</a>
+method reorderes or augments passed arguments, see <a href="lib/api/mutate/argument.js#L106">tagStickerInc</a>
 
 </p>
 </details>
@@ -1338,7 +1338,7 @@ method reorderes or augments passed arguments, see <a href="lib/api/mutate/argum
 
 method binds arguments which can not be changed
 
-method reorderes or augments passed arguments, see <a href="lib/api/mutate/argument.js#L87">tagStickerFind</a>
+method reorderes or augments passed arguments, see <a href="lib/api/mutate/argument.js#L107">tagStickerFind</a>
 
 </p>
 </details>
@@ -1349,7 +1349,7 @@ method reorderes or augments passed arguments, see <a href="lib/api/mutate/argum
 
 method binds arguments which can not be changed
 
-method reorderes or augments passed arguments, see <a href="lib/api/mutate/argument.js#L88">tagStickerSearch</a>
+method reorderes or augments passed arguments, see <a href="lib/api/mutate/argument.js#L108">tagStickerSearch</a>
 
 </p>
 </details>

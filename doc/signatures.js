@@ -3,6 +3,11 @@
 // generatetypings.js (lib/index.d.ts) and generatedoc.js (README.md)
 
 const ARGS_TS = {
+  boolAt: '(state?: boolean | 0 | 1 | \'0\' | \'1\')',
+  consume: '(state?: boolean | 0 | 1 | \'0\' | \'1\' | \'oneshot\')',
+  single: '(state?: boolean | 0 | 1 | \'0\' | \'1\' | \'oneshot\')',
+  mixrampdelay: '(seconds: number | string | false)',
+  replaygain: '(mode: \'off\' | \'track\' | \'album\' | \'auto\' | false)',
   dblist: '(tag: string, filter: string | false, ...group_by_tags: string[])',
   stickerSet: '(uri: string, name: string, value: string | number)',
   stickerDel: '(uri: string, name: string)',

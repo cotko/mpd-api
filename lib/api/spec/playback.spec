@@ -19,7 +19,7 @@
 @parser object
 
 @method consume
-@arguments boolAt(0)
+@arguments consume
 
 @method crossfade
 @method mixrampdb
